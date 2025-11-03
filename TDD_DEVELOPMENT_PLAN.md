@@ -7,16 +7,16 @@
 
 ## Development Phases & Status Tracker
 
-### Phase 0: Project Setup ⏳
+### Phase 0: Project Setup 🔄
 | Step | Task | Test First | Status | Commit Message |
 |------|------|------------|--------|----------------|
-| 0.1 | Initialize Next.js project with TypeScript | - | ⏳ | `chore: initialize Next.js project with TypeScript` |
-| 0.2 | Set up ESLint, Prettier, Husky | - | ⏳ | `chore: configure linting and formatting tools` |
-| 0.3 | Install testing libraries (Jest, React Testing Library) | - | ⏳ | `chore: setup testing infrastructure` |
-| 0.4 | Configure Tailwind CSS | - | ⏳ | `chore: add Tailwind CSS configuration` |
-| 0.5 | Set up GitHub repository and push | - | ⏳ | `chore: initial commit and GitHub setup` |
-| 0.6 | Install Prisma and PostgreSQL dependencies | - | ⏳ | `chore: add Prisma ORM and database dependencies` |
-| 0.7 | Create .env files and example | - | ⏳ | `chore: add environment configuration` |
+| 0.1 | Initialize Next.js project with TypeScript | - | ✅ | `chore: initialize Next.js project with TypeScript` |
+| 0.2 | Set up ESLint, Prettier, Husky | - | ✅ | Included in 0.1 |
+| 0.3 | Install testing libraries (Jest, React Testing Library) | - | 🔄 | `chore: setup testing infrastructure` |
+| 0.4 | Configure Tailwind CSS | - | ✅ | Included in 0.1 |
+| 0.5 | Set up GitHub repository and push | - | ✅ | `docs: initial documentation and data model` |
+| 0.6 | Install Prisma and PostgreSQL dependencies | - | ✅ | Included in 0.1 |
+| 0.7 | Create .env files and example | - | ✅ | Included in 0.1 |
 
 ### Phase 1: Database & Models ⏳
 | Step | Task | Test First | Status | Commit Message |

@@ -30,14 +30,40 @@ This project strictly follows these core principles:
 
 ## Project Overview
 
-**Beat the Kingz** is a location-based sports competition mobile web app built with Next.js. MVP starts with basketball and soccer, with plans to expand to running tracks, cycling routes, and skiing slopes. Players compete at local venues, complete video challenges, earn XP, and compete for the title of "King" at their venue.
+**Beat the Kingz** is a location-based sports competition mobile web app built with Next.js. MVP starts with basketball and soccer, with plans to expand to running tracks, cycling routes, and skiing slopes. Players compete at local venues, complete video challenges, earn XP/RP, and compete for the title of "King" at their venue.
 
-**See DATA_MODEL.md for complete database schema with MVP vs Future phase breakdown.**
+## Documentation Structure
+
+All documentation files (`.md`) should be organized as follows:
+
+```
+/                           # Root
+├── README.md               # Project overview (standard location)
+├── CLAUDE.md               # AI assistant instructions (must stay at root)
+├── docs/                   # All other documentation
+│   ├── PRD_NEXTJS_MVP.md   # Product requirements
+│   ├── DEPLOYMENT.md       # Deployment guide
+│   ├── OAUTH_SETUP.md      # OAuth configuration
+│   ├── STRUCTURE.md        # Project structure
+│   ├── TDD_DEVELOPMENT_PLAN.md
+│   ├── CLICKTHROUGH_PLAN.md
+│   ├── GITHUB_SECRETS.md
+│   ├── MVP_REVIEW_FINDINGS.md
+│   └── GEOGRAPHIC_HIERARCHY_OPTIONS.md
+└── prisma/                 # Database-specific docs
+    ├── SCHEMA_DOCS.md      # ER diagrams & schema documentation
+    └── CHANGELOG.md        # Schema evolution history
+```
+
+**Rules:**
+- New documentation files go in `docs/`
+- Database/schema docs go in `prisma/`
+- Only `README.md` and `CLAUDE.md` stay at root
 
 ## Core Application Flow
 
-1. **Email Verification** (Page 1): Email input → verification code → validation
-2. **User Registration** (Page 2): Name, age, gender, location → Face recognition/photo upload
+1. **OAuth Login** (Page 1): OAuth provider authentication (Google, etc.)
+2. **User Onboarding** (Page 2): Name, date of birth, gender, city selection
 3. **Welcome/Main** (Page 3): Avatar creation required to unlock features (Ranking, Map, Challenge)
 4. **Avatar Card** (Page 4): Customizable basketball outfit (hair, jersey, shorts, shoes). Displays crown when player is King of the Court, age group, stats (XP, Rank), and nearby active players with distances
 5. **Ranking** (Page 5): Three-level rankings (Court/City/Country), top 10 lists, monthly challenges with prizes, sponsor section
@@ -47,37 +73,38 @@ This project strictly follows these core principles:
 
 ## Data Model
 
-**For detailed schema, MVP phases, and future enhancements, see DATA_MODEL.md**
-**For visual ER diagrams, see ER_DIAGRAM.md**
+**Schema docs:** [prisma/SCHEMA_DOCS.md](prisma/SCHEMA_DOCS.md) | **Changelog:** [prisma/CHANGELOG.md](prisma/CHANGELOG.md)
 
-### MVP Phase 1 Core Tables (Implement First)
-- **User** - Authentication and profile
-- **Venue** - Sport-agnostic locations (courts, fields, tracks, slopes)
-- **Challenge** - Activities at venues
-- **ChallengeSubmission** - User attempts with video proof
-- **PlayerStats** - XP, rank, and statistics per sport
+### Core Tables
 
-### MVP Phase 2 (Add After Core Works)
-- **Avatar** - User avatar and customization
-- **AvatarEquipment** - Sport-specific outfit loadouts
-- **ActivePlayer** - Real-time player tracking
-- **MonthlyChallenge** - Monthly competitions
+**Location System:**
+- **Country, State, City, District** - Geographic hierarchy for rankings
 
-### Future Enhancements (Post-MVP)
-- **Sport** - Sport as first-class entity
-- **EquipmentCatalog** - All available items
-- **UserEquipment** - Unlocked items tracking
-- **VenueRanking, CityRanking, CountryRanking** - Optimized ranking tables
-- **ChallengeTemplate** - Reusable challenge definitions
-- **Sponsor** - Sponsor management
+**User & Avatar:**
+- **User** - OAuth authentication and profile
+- **Avatar** - Base appearance (skin tone, hair)
+- **AvatarItem** - Catalog of available equipment
+- **UserUnlockedItem** - Items unlocked per user
+- **AvatarEquipment** - Equipped items per sport
+
+**Sport & Venue:**
+- **Sport** - First-class sport entity
+- **Venue** - Locations linked to City/District
+
+**Gameplay:**
+- **Challenge** - Solo activities at venues
+- **ChallengeAttempt** - User challenge completions
+- **Match** - 1v1 player competitions
+- **PlayerStats** - XP, RP, and detailed statistics per sport
+- **ActivePlayer** - Real-time player tracking at venues
 
 ## Technology Stack
 
 **Framework:** Next.js (App Router)
-**Database:** TBD (PostgreSQL recommended for geospatial queries)
-**Authentication:** Email verification flow with codes
-**File Storage:** For profile pictures and challenge videos
-**Geolocation:** For court mapping and distance calculations
+**Database:** PostgreSQL with Prisma ORM
+**Authentication:** OAuth (Google, etc.)
+**File Storage:** For challenge videos
+**Geolocation:** For venue mapping and distance calculations
 **Real-time:** For active player tracking and ranking updates
 
 ## Key Technical Features
@@ -141,42 +168,43 @@ npm run lint
 ## Architecture Considerations
 
 ### State Management
-- User authentication state (email verification, logged-in status)
+- User authentication state (OAuth session)
 - Avatar customization state
 - Real-time active player data
 - Challenge recording state (countdown, recording, upload progress)
+- Match state (pending, in_progress, score agreement)
 
 ### API Routes Structure
 ```
-/api/auth/verify-email
-/api/auth/verify-code
+/api/auth/[...nextauth]    # OAuth handlers
 /api/users/profile
 /api/users/avatar
 /api/venues/nearby?sport=basketball
 /api/venues/[venueId]
 /api/rankings/venue/[venueId]
-/api/rankings/city/[city]?sport=basketball
-/api/rankings/country?sport=basketball
+/api/rankings/city/[cityId]?sport=basketball
+/api/rankings/country/[countryId]?sport=basketball
 /api/challenges/[challengeId]
-/api/challenges/submit
-/api/challenges/verify
-/api/monthly-challenge
+/api/challenges/[challengeId]/attempt
+/api/matches
+/api/matches/[matchId]
+/api/matches/[matchId]/agree
 ```
 
 ### Page Routes Structure
 ```
-/ (Page 1 - Email verification)
-/verify (Verification code input)
-/register (Page 2 - User info)
-/photo (Page 2b - Face recognition/photo upload)
-/welcome (Page 3 - Main welcome, feature unlock)
-/avatar (Page 4 - Avatar customization)
-/ranking (Page 5 - Three-tier rankings)
-/map (Page 6 - Interactive court map)
-/challenges (Page 7 - Courts and challenges list)
-/challenge/[id] (Page 8 - Challenge instructions)
-/challenge/[id]/record (Page 9/9a - Camera & recording)
-/challenge/[id]/results (Page 10 - Results & feedback)
+/ (Landing/OAuth login)
+/onboarding (User profile setup)
+/welcome (Main welcome, feature unlock)
+/avatar (Avatar customization)
+/ranking (Three-tier rankings)
+/map (Interactive venue map)
+/challenges (Venues and challenges list)
+/challenge/[id] (Challenge instructions)
+/challenge/[id]/record (Camera & recording)
+/challenge/[id]/results (Results & feedback)
+/matches (1v1 match list)
+/match/[id] (Match details & scoring)
 ```
 
 ### Critical UI/UX Elements
@@ -188,9 +216,9 @@ npm run lint
 - Video preview with retry functionality
 
 ### Security & Validation
-- Email verification with time-limited codes
+- OAuth-based authentication (no password storage)
 - Video verification for challenge submissions
-- Player identification gestures in videos
+- Match score mutual agreement system
 - Geolocation validation for venue check-ins
-- Rate limiting on challenge submissions
+- Rate limiting on challenge/match submissions
 - Sport-specific video validation rules

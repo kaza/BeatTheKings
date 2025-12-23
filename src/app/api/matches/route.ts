@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server'
 
 // Mock matches data
 const mockMatches = [
@@ -71,11 +71,11 @@ const mockMatches = [
     },
     canDispute: false, // Too old to dispute
   },
-];
+]
 
 export async function GET() {
   // Sort by date (newest first)
-  const sortedMatches = mockMatches.sort((a, b) => b.date.getTime() - a.date.getTime());
+  const sortedMatches = mockMatches.sort((a, b) => b.date.getTime() - a.date.getTime())
 
-  return NextResponse.json(sortedMatches);
+  return NextResponse.json(sortedMatches)
 }

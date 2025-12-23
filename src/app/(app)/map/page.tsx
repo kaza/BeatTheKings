@@ -1,55 +1,55 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { Logo } from '@/components/layout/Logo';
-import { useApp } from '@/context/AppContext';
-import { mockVenues } from '@/lib/mockData';
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { Logo } from '@/components/layout/Logo'
+import { useApp } from '@/context/AppContext'
+import { mockVenues } from '@/lib/mockData'
 
 interface ActivePlayer {
-  id: string;
-  name: string;
-  ageGroup: string;
-  distance: string;
-  isKing: boolean;
+  id: string
+  name: string
+  ageGroup: string
+  distance: string
+  isKing: boolean
 }
 
 interface VenueDetails {
-  id: string;
-  name: string;
-  city: string;
-  address: string;
-  activePlayerCount: number;
+  id: string
+  name: string
+  city: string
+  address: string
+  activePlayerCount: number
 }
 
 export default function MapPage() {
-  const router = useRouter();
-  const { selectedSport, setSelectedSport, user } = useApp();
-  const [selectedVenue, setSelectedVenue] = useState<string | null>(null);
-  const [activePlayers, setActivePlayers] = useState<ActivePlayer[]>([]);
-  const [venueDetails, setVenueDetails] = useState<VenueDetails | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter()
+  const { selectedSport, setSelectedSport, user } = useApp()
+  const [selectedVenue, setSelectedVenue] = useState<string | null>(null)
+  const [activePlayers, setActivePlayers] = useState<ActivePlayer[]>([])
+  const [venueDetails, setVenueDetails] = useState<VenueDetails | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const filteredVenues = mockVenues.filter(v => v.sportType === selectedSport);
-  const ageGroup = user?.ageGroup || '14-16';
+  const filteredVenues = mockVenues.filter((v) => v.sportType === selectedSport)
+  const ageGroup = user?.ageGroup || '14-16'
 
   // Fetch active players when venue is selected
   useEffect(() => {
     if (selectedVenue) {
-      setIsLoading(true);
+      setIsLoading(true)
       fetch(`/api/venues/${selectedVenue}/active-players`)
-        .then(res => res.json())
-        .then(data => {
-          setVenueDetails(data.venue);
-          setActivePlayers(data.activePlayers || []);
+        .then((res) => res.json())
+        .then((data) => {
+          setVenueDetails(data.venue)
+          setActivePlayers(data.activePlayers || [])
         })
-        .catch(err => console.error('Failed to fetch active players:', err))
-        .finally(() => setIsLoading(false));
+        .catch((err) => console.error('Failed to fetch active players:', err))
+        .finally(() => setIsLoading(false))
     } else {
-      setActivePlayers([]);
-      setVenueDetails(null);
+      setActivePlayers([])
+      setVenueDetails(null)
     }
-  }, [selectedVenue]);
+  }, [selectedVenue])
 
   return (
     <main className="min-h-screen bg-white">
@@ -75,14 +75,12 @@ export default function MapPage() {
 
         {/* Sport Filter */}
         <div>
-          <label className="block text-xs font-medium text-gray-600 mb-1.5">
-            Select Sport
-          </label>
+          <label className="block text-xs font-medium text-gray-600 mb-1.5">Select Sport</label>
           <select
             value={selectedSport}
             onChange={(e) => {
-              setSelectedSport(e.target.value as any);
-              setSelectedVenue(null); // Reset selection when sport changes
+              setSelectedSport(e.target.value as any)
+              setSelectedVenue(null) // Reset selection when sport changes
             }}
             className="w-full px-3 py-2.5 rounded-lg border border-gray-300 focus:border-blue-500 focus:outline-none bg-white text-sm"
           >
@@ -95,7 +93,10 @@ export default function MapPage() {
         </div>
 
         {/* Interactive Map */}
-        <div className="bg-gradient-to-br from-blue-50 to-green-50 rounded-xl p-6 relative overflow-hidden border-2 border-gray-200" style={{ height: '400px' }}>
+        <div
+          className="bg-gradient-to-br from-blue-50 to-green-50 rounded-xl p-6 relative overflow-hidden border-2 border-gray-200"
+          style={{ height: '400px' }}
+        >
           {/* Map Grid Background */}
           <div className="absolute inset-0 opacity-10">
             <div className="grid grid-cols-8 grid-rows-8 h-full">
@@ -107,20 +108,22 @@ export default function MapPage() {
 
           {/* Map Title */}
           <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1.5 rounded-lg shadow-sm">
-            <p className="text-xs font-semibold text-gray-700">📍 Austria - {selectedSport === 'basketball' ? 'Basketball Courts' : 'Venues'}</p>
+            <p className="text-xs font-semibold text-gray-700">
+              📍 Austria - {selectedSport === 'basketball' ? 'Basketball Courts' : 'Venues'}
+            </p>
           </div>
 
           {/* Venue Markers on Map */}
           {filteredVenues.map((venue, index) => {
             // Position venues across the map
             const positions = [
-              { top: '20%', left: '30%' },   // Vienna area - venue 1
-              { top: '35%', left: '45%' },   // Vienna area - venue 2
-              { top: '15%', left: '55%' },   // Vienna area - venue 3
-              { top: '65%', left: '25%' },   // Graz
-              { top: '25%', left: '15%' },   // Salzburg
-            ];
-            const position = positions[index] || { top: '50%', left: '50%' };
+              { top: '20%', left: '30%' }, // Vienna area - venue 1
+              { top: '35%', left: '45%' }, // Vienna area - venue 2
+              { top: '15%', left: '55%' }, // Vienna area - venue 3
+              { top: '65%', left: '25%' }, // Graz
+              { top: '25%', left: '15%' }, // Salzburg
+            ]
+            const position = positions[index] || { top: '50%', left: '50%' }
 
             return (
               <div
@@ -133,11 +136,13 @@ export default function MapPage() {
               >
                 {/* Marker Pin */}
                 <div className="relative">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center shadow-lg ${
-                    selectedVenue === venue.id
-                      ? 'bg-blue-600 ring-4 ring-blue-200'
-                      : 'bg-red-500 hover:bg-red-600'
-                  }`}>
+                  <div
+                    className={`w-10 h-10 rounded-full flex items-center justify-center shadow-lg ${
+                      selectedVenue === venue.id
+                        ? 'bg-blue-600 ring-4 ring-blue-200'
+                        : 'bg-red-500 hover:bg-red-600'
+                    }`}
+                  >
                     <span className="text-white text-lg">📍</span>
                   </div>
 
@@ -155,7 +160,7 @@ export default function MapPage() {
                   )}
                 </div>
               </div>
-            );
+            )
           })}
 
           {/* Legend */}
@@ -210,8 +215,12 @@ export default function MapPage() {
                           {player.isKing ? (
                             <span className="text-xl">👑</span>
                           ) : (
-                            <svg className="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                            <svg
+                              className="w-6 h-6 text-gray-600"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                             </svg>
                           )}
                         </div>
@@ -270,5 +279,5 @@ export default function MapPage() {
         </div>
       </div>
     </main>
-  );
+  )
 }

@@ -7,7 +7,7 @@ import type {
   ChallengeSubmission,
   UserChallengeStatus,
   PlayerWithStats,
-} from '@/types';
+} from '@/types'
 
 // Austrian States and Cities
 export const austrianStates = [
@@ -20,19 +20,19 @@ export const austrianStates = [
   { id: 'salzburg', name: 'Salzburg', nameGerman: 'Salzburg' },
   { id: 'vorarlberg', name: 'Vorarlberg', nameGerman: 'Vorarlberg' },
   { id: 'burgenland', name: 'Burgenland', nameGerman: 'Burgenland' },
-];
+]
 
 export const austrianCitiesByState: Record<string, string[]> = {
-  'vienna': ['Vienna'],
+  vienna: ['Vienna'],
   'lower-austria': ['St. Pölten', 'Wiener Neustadt', 'Baden', 'Klosterneuburg', 'Amstetten'],
   'upper-austria': ['Linz', 'Wels', 'Steyr', 'Leonding', 'Traun'],
-  'styria': ['Graz', 'Leoben', 'Kapfenberg', 'Bruck an der Mur', 'Feldbach'],
-  'tyrol': ['Innsbruck', 'Kufstein', 'Telfs', 'Hall in Tirol', 'Schwaz'],
-  'carinthia': ['Klagenfurt', 'Villach', 'Wolfsberg', 'Spittal an der Drau', 'Feldkirchen'],
-  'salzburg': ['Salzburg', 'Hallein', 'Saalfelden', 'Zell am See', 'Seekirchen'],
-  'vorarlberg': ['Bregenz', 'Dornbirn', 'Feldkirch', 'Hohenems', 'Lustenau'],
-  'burgenland': ['Eisenstadt', 'Neusiedl am See', 'Oberwart', 'Güssing', 'Jennersdorf'],
-};
+  styria: ['Graz', 'Leoben', 'Kapfenberg', 'Bruck an der Mur', 'Feldbach'],
+  tyrol: ['Innsbruck', 'Kufstein', 'Telfs', 'Hall in Tirol', 'Schwaz'],
+  carinthia: ['Klagenfurt', 'Villach', 'Wolfsberg', 'Spittal an der Drau', 'Feldkirchen'],
+  salzburg: ['Salzburg', 'Hallein', 'Saalfelden', 'Zell am See', 'Seekirchen'],
+  vorarlberg: ['Bregenz', 'Dornbirn', 'Feldkirch', 'Hohenems', 'Lustenau'],
+  burgenland: ['Eisenstadt', 'Neusiedl am See', 'Oberwart', 'Güssing', 'Jennersdorf'],
+}
 
 // Mock current user (will be built up through onboarding)
 export const mockUser: Partial<User> = {
@@ -47,7 +47,7 @@ export const mockUser: Partial<User> = {
   hasCompletedOnboarding: false,
   createdAt: new Date(),
   updatedAt: new Date(),
-};
+}
 
 // Mock venues
 export const mockVenues: Venue[] = [
@@ -74,7 +74,7 @@ export const mockVenues: Venue[] = [
     sportType: 'basketball',
     address: 'Prater 90',
     latitude: 48.2167,
-    longitude: 16.4000,
+    longitude: 16.4,
     city: 'Vienna',
     country: 'Austria',
     activePlayerCount: 12,
@@ -131,7 +131,7 @@ export const mockVenues: Venue[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
   },
-];
+]
 
 // Mock challenges
 export const mockChallenges: Challenge[] = [
@@ -140,7 +140,8 @@ export const mockChallenges: Challenge[] = [
     venueId: 'venue-1',
     name: 'Free Throw Master',
     description: 'Make 8 out of 10 free throws',
-    instructions: 'Stand at the free throw line and shoot 10 consecutive free throws. You must make at least 8 to pass.',
+    instructions:
+      'Stand at the free throw line and shoot 10 consecutive free throws. You must make at least 8 to pass.',
     challengeType: 'free_throws',
     parameters: {
       requiredShots: 10,
@@ -158,7 +159,8 @@ export const mockChallenges: Challenge[] = [
     venueId: 'venue-1',
     name: 'Three-Point Assassin',
     description: 'Hit 5 three-pointers in 60 seconds',
-    instructions: 'Make 5 three-point shots from different positions around the arc within 60 seconds.',
+    instructions:
+      'Make 5 three-point shots from different positions around the arc within 60 seconds.',
     challengeType: 'three_pointers',
     parameters: {
       requiredShots: 5,
@@ -175,7 +177,8 @@ export const mockChallenges: Challenge[] = [
     venueId: 'venue-1',
     name: 'Layup Drill',
     description: 'Complete 20 consecutive layups alternating sides',
-    instructions: 'Start from one side, make a layup, grab the rebound, go to the other side. Repeat 10 times each side.',
+    instructions:
+      'Start from one side, make a layup, grab the rebound, go to the other side. Repeat 10 times each side.',
     challengeType: 'layups',
     parameters: {
       requiredShots: 20,
@@ -210,7 +213,8 @@ export const mockChallenges: Challenge[] = [
     venueId: 'venue-4',
     name: '5K Sprint',
     description: 'Complete a 5K run under 25 minutes',
-    instructions: 'Run 5 kilometers (3.1 miles) around the track. Finish under 25 minutes to earn XP.',
+    instructions:
+      'Run 5 kilometers (3.1 miles) around the track. Finish under 25 minutes to earn XP.',
     challengeType: 'sprint',
     parameters: {
       distance: '5km',
@@ -222,7 +226,7 @@ export const mockChallenges: Challenge[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
   },
-];
+]
 
 // Mock other users
 export const mockUsers: User[] = [
@@ -352,7 +356,7 @@ export const mockUsers: User[] = [
     createdAt: new Date('2024-02-15'),
     updatedAt: new Date(),
   },
-];
+]
 
 // Mock player stats
 export const mockPlayerStats: PlayerStats[] = [
@@ -470,7 +474,7 @@ export const mockPlayerStats: PlayerStats[] = [
     },
     updatedAt: new Date(),
   },
-];
+]
 
 // Mock avatars
 export const mockAvatars: Avatar[] = [
@@ -502,14 +506,14 @@ export const mockAvatars: Avatar[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
   },
-];
+]
 
 // Top players for rankings
 export const mockTopPlayers: PlayerWithStats[] = mockUsers.slice(0, 5).map((user, index) => ({
   user,
   stats: mockPlayerStats[index],
-  avatar: mockAvatars.find(a => a.userId === user.id),
-}));
+  avatar: mockAvatars.find((a) => a.userId === user.id),
+}))
 
 // Monthly challenge mock data
 export const mockMonthlyChallenge = {
@@ -522,7 +526,7 @@ export const mockMonthlyChallenge = {
   prizeDescription: '$500 Nike Gift Card + Championship Trophy',
   topPlayerIds: ['user-2', 'user-3', 'user-6', 'user-1', 'user-5'],
   isActive: true,
-};
+}
 
 // Mock sponsors
 export const mockSponsors = [
@@ -550,7 +554,7 @@ export const mockSponsors = [
     displayOrder: 3,
     isActive: true,
   },
-];
+]
 
 // Challenge user statuses (for current user)
 export const mockUserChallengeStatuses: UserChallengeStatus[] = [
@@ -585,4 +589,4 @@ export const mockUserChallengeStatuses: UserChallengeStatus[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
   },
-];
+]

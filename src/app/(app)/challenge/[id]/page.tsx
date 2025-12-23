@@ -1,21 +1,21 @@
-'use client';
+'use client'
 
-import { useRouter, useParams } from 'next/navigation';
-import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
-import { mockChallenges, mockVenues } from '@/lib/mockData';
+import { useRouter, useParams } from 'next/navigation'
+import { Button } from '@/components/ui/Button'
+import { Card } from '@/components/ui/Card'
+import { Badge } from '@/components/ui/Badge'
+import { mockChallenges, mockVenues } from '@/lib/mockData'
 
 export default function ChallengePage() {
-  const router = useRouter();
-  const params = useParams();
-  const challengeId = params.id as string;
+  const router = useRouter()
+  const params = useParams()
+  const challengeId = params.id as string
 
-  const challenge = mockChallenges.find(c => c.id === challengeId);
-  const venue = challenge ? mockVenues.find(v => v.id === challenge.venueId) : null;
+  const challenge = mockChallenges.find((c) => c.id === challengeId)
+  const venue = challenge ? mockVenues.find((v) => v.id === challenge.venueId) : null
 
   if (!challenge || !venue) {
-    return <div className="p-6">Challenge not found</div>;
+    return <div className="p-6">Challenge not found</div>
   }
 
   return (
@@ -37,11 +37,15 @@ export default function ChallengePage() {
             </div>
 
             <div className="flex gap-2">
-              <Badge className={
-                challenge.difficulty === 'easy' ? 'bg-green-100 text-green-800' :
-                challenge.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                'bg-red-100 text-red-800'
-              }>
+              <Badge
+                className={
+                  challenge.difficulty === 'easy'
+                    ? 'bg-green-100 text-green-800'
+                    : challenge.difficulty === 'medium'
+                      ? 'bg-yellow-100 text-yellow-800'
+                      : 'bg-red-100 text-red-800'
+                }
+              >
                 {challenge.difficulty.toUpperCase()}
               </Badge>
               <Badge variant="info">+{challenge.xpReward} XP</Badge>
@@ -62,9 +66,7 @@ export default function ChallengePage() {
             <p className="text-gray-700">{challenge.instructions}</p>
 
             {challenge.parameters.requiredShots && (
-              <p className="font-medium">
-                • Required shots: {challenge.parameters.requiredShots}
-              </p>
+              <p className="font-medium">• Required shots: {challenge.parameters.requiredShots}</p>
             )}
             {challenge.parameters.minSuccessful && (
               <p className="font-medium">
@@ -72,14 +74,10 @@ export default function ChallengePage() {
               </p>
             )}
             {challenge.parameters.timeLimit && (
-              <p className="font-medium">
-                • Time limit: {challenge.parameters.timeLimit} seconds
-              </p>
+              <p className="font-medium">• Time limit: {challenge.parameters.timeLimit} seconds</p>
             )}
             {challenge.parameters.distance && (
-              <p className="font-medium">
-                • Distance: {challenge.parameters.distance}
-              </p>
+              <p className="font-medium">• Distance: {challenge.parameters.distance}</p>
             )}
           </div>
         </Card>
@@ -107,11 +105,11 @@ export default function ChallengePage() {
         {/* Important Note */}
         <Card className="bg-yellow-50 border-2 border-yellow-200">
           <p className="text-sm text-yellow-800">
-            ⚠️ <strong>Important:</strong> Only verified submissions count toward your XP and rankings.
-            Make sure to follow all instructions carefully!
+            ⚠️ <strong>Important:</strong> Only verified submissions count toward your XP and
+            rankings. Make sure to follow all instructions carefully!
           </p>
         </Card>
       </div>
     </main>
-  );
+  )
 }

@@ -1,28 +1,28 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useApp } from '@/context/AppContext';
-import { Logo } from '@/components/layout/Logo';
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { useApp } from '@/context/AppContext'
+import { Logo } from '@/components/layout/Logo'
 
 interface Opponent {
-  id: string;
-  name: string;
+  id: string
+  name: string
 }
 
 export default function ReadyToRecordPage() {
-  const router = useRouter();
-  const { user } = useApp();
-  const [opponent, setOpponent] = useState<Opponent | null>(null);
+  const router = useRouter()
+  const { user } = useApp()
+  const [opponent, setOpponent] = useState<Opponent | null>(null)
 
   useEffect(() => {
-    const savedOpponent = sessionStorage.getItem('selectedOpponent');
+    const savedOpponent = sessionStorage.getItem('selectedOpponent')
     if (savedOpponent) {
-      setOpponent(JSON.parse(savedOpponent));
+      setOpponent(JSON.parse(savedOpponent))
     }
-  }, []);
+  }, [])
 
-  if (!opponent) return null;
+  if (!opponent) return null
 
   return (
     <main className="min-h-screen bg-white">
@@ -53,7 +53,7 @@ export default function ReadyToRecordPage() {
             <div className="text-center">
               <div className="w-20 h-20 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-400 flex items-center justify-center mb-2">
                 <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                 </svg>
               </div>
               <p className="text-sm font-bold text-gray-900">You</p>
@@ -69,7 +69,7 @@ export default function ReadyToRecordPage() {
             <div className="text-center">
               <div className="w-20 h-20 rounded-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center mb-2">
                 <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                 </svg>
               </div>
               <p className="text-sm font-bold text-gray-900">{opponent.name}</p>
@@ -85,8 +85,8 @@ export default function ReadyToRecordPage() {
           <div className="flex items-center justify-center mb-4">
             <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
               <svg className="w-10 h-10 text-red-600" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M4 6h2v12H4zm4 0h2v12H8zm4 0h2v12h-2zm4 0h2v12h-2z"/>
-                <circle cx="12" cy="12" r="8" fill="currentColor"/>
+                <path d="M4 6h2v12H4zm4 0h2v12H8zm4 0h2v12h-2zm4 0h2v12h-2z" />
+                <circle cx="12" cy="12" r="8" fill="currentColor" />
               </svg>
             </div>
           </div>
@@ -103,7 +103,8 @@ export default function ReadyToRecordPage() {
               <div>
                 <p className="text-xs font-semibold text-yellow-900 mb-1">Important:</p>
                 <p className="text-xs text-yellow-800">
-                  Record the entire match from first point to final point. Incomplete recordings cannot be verified.
+                  Record the entire match from first point to final point. Incomplete recordings
+                  cannot be verified.
                 </p>
               </div>
             </div>
@@ -132,11 +133,11 @@ export default function ReadyToRecordPage() {
           className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
         >
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="8"/>
+            <circle cx="12" cy="12" r="8" />
           </svg>
           Start Recording
         </button>
       </div>
     </main>
-  );
+  )
 }

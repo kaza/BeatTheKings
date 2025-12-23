@@ -1,59 +1,59 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation';
-import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
-import { mockChallenges } from '@/lib/mockData';
+import { useState, useEffect } from 'react'
+import { useRouter, useParams } from 'next/navigation'
+import { Button } from '@/components/ui/Button'
+import { Card } from '@/components/ui/Card'
+import { mockChallenges } from '@/lib/mockData'
 
 export default function RecordPage() {
-  const router = useRouter();
-  const params = useParams();
-  const challengeId = params.id as string;
+  const router = useRouter()
+  const params = useParams()
+  const challengeId = params.id as string
 
-  const [countdown, setCountdown] = useState(10);
-  const [isRecording, setIsRecording] = useState(false);
-  const [recordingTime, setRecordingTime] = useState(0);
-  const [isComplete, setIsComplete] = useState(false);
+  const [countdown, setCountdown] = useState(10)
+  const [isRecording, setIsRecording] = useState(false)
+  const [recordingTime, setRecordingTime] = useState(0)
+  const [isComplete, setIsComplete] = useState(false)
 
-  const challenge = mockChallenges.find(c => c.id === challengeId);
+  const challenge = mockChallenges.find((c) => c.id === challengeId)
 
   // Countdown timer
   useEffect(() => {
     if (countdown > 0 && !isRecording) {
-      const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
-      return () => clearTimeout(timer);
+      const timer = setTimeout(() => setCountdown(countdown - 1), 1000)
+      return () => clearTimeout(timer)
     } else if (countdown === 0 && !isRecording) {
-      setIsRecording(true);
+      setIsRecording(true)
     }
-  }, [countdown, isRecording]);
+  }, [countdown, isRecording])
 
   // Recording timer
   useEffect(() => {
     if (isRecording && !isComplete) {
       const timer = setInterval(() => {
-        setRecordingTime(t => t + 1);
-      }, 1000);
-      return () => clearInterval(timer);
+        setRecordingTime((t) => t + 1)
+      }, 1000)
+      return () => clearInterval(timer)
     }
-  }, [isRecording, isComplete]);
+  }, [isRecording, isComplete])
 
   const handleStop = () => {
-    setIsRecording(false);
-    setIsComplete(true);
-  };
+    setIsRecording(false)
+    setIsComplete(true)
+  }
 
   const handleTryAgain = () => {
-    setCountdown(10);
-    setIsRecording(false);
-    setRecordingTime(0);
-    setIsComplete(false);
-  };
+    setCountdown(10)
+    setIsRecording(false)
+    setRecordingTime(0)
+    setIsComplete(false)
+  }
 
   const handleUpload = () => {
     // Mock: Navigate to results
-    router.push(`/challenge/${challengeId}/results`);
-  };
+    router.push(`/challenge/${challengeId}/results`)
+  }
 
   return (
     <main className="min-h-screen bg-black text-white p-6">
@@ -75,9 +75,7 @@ export default function RecordPage() {
             {countdown > 0 && !isRecording && (
               <>
                 <p className="text-2xl font-medium">Recording starts in...</p>
-                <div className="text-9xl font-bold animate-pulse">
-                  {countdown}
-                </div>
+                <div className="text-9xl font-bold animate-pulse">{countdown}</div>
               </>
             )}
 
@@ -87,7 +85,8 @@ export default function RecordPage() {
                   <div className="text-6xl">●</div>
                 </div>
                 <p className="text-3xl font-bold">
-                  {Math.floor(recordingTime / 60)}:{(recordingTime % 60).toString().padStart(2, '0')}
+                  {Math.floor(recordingTime / 60)}:
+                  {(recordingTime % 60).toString().padStart(2, '0')}
                 </p>
                 <Button
                   variant="secondary"
@@ -134,5 +133,5 @@ export default function RecordPage() {
         )}
       </div>
     </main>
-  );
+  )
 }

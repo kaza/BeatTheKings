@@ -1,33 +1,45 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useState } from 'react'
+import { useRouter, useParams } from 'next/navigation'
 
 export default function DisputeMatchPage() {
-  const router = useRouter();
-  const params = useParams();
-  const matchId = params.id as string;
-  const [reason, setReason] = useState('');
-  const [selectedReason, setSelectedReason] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter()
+  const params = useParams()
+  const matchId = params.id as string
+  const [reason, setReason] = useState('')
+  const [selectedReason, setSelectedReason] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const disputeReasons = [
-    { id: 'incorrect_score', label: 'Incorrect Score', description: 'The final score was counted incorrectly' },
-    { id: 'wrong_winner', label: 'Wrong Winner', description: 'The system identified the wrong winner' },
+    {
+      id: 'incorrect_score',
+      label: 'Incorrect Score',
+      description: 'The final score was counted incorrectly',
+    },
+    {
+      id: 'wrong_winner',
+      label: 'Wrong Winner',
+      description: 'The system identified the wrong winner',
+    },
     { id: 'missed_points', label: 'Missed Points', description: 'Some points were not counted' },
-    { id: 'technical_issue', label: 'Technical Issue', description: 'Recording or verification had technical problems' },
+    {
+      id: 'technical_issue',
+      label: 'Technical Issue',
+      description: 'Recording or verification had technical problems',
+    },
     { id: 'other', label: 'Other', description: 'Different issue not listed above' },
-  ];
+  ]
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (!selectedReason) {
-      alert('Please select a reason for the dispute');
-      return;
+      alert('Please select a reason for the dispute')
+      return
     }
 
-    setIsSubmitting(true);
+    setIsSubmitting(true)
 
     try {
       await fetch(`/api/matches/${matchId}/dispute`, {
@@ -37,16 +49,16 @@ export default function DisputeMatchPage() {
           reason: selectedReason,
           details: reason,
         }),
-      });
+      })
 
       // Navigate back to match details
-      router.push(`/matches/${matchId}`);
+      router.push(`/matches/${matchId}`)
     } catch (error) {
-      console.error('Failed to submit dispute:', error);
-      alert('Failed to submit dispute. Please try again.');
-      setIsSubmitting(false);
+      console.error('Failed to submit dispute:', error)
+      alert('Failed to submit dispute. Please try again.')
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return (
     <main className="min-h-screen bg-white">
@@ -77,7 +89,8 @@ export default function DisputeMatchPage() {
             <div>
               <p className="text-xs font-semibold text-yellow-900 mb-1">Important:</p>
               <p className="text-xs text-yellow-800">
-                Disputes should only be filed if you believe there was a genuine error in the match verification. False disputes may result in penalties.
+                Disputes should only be filed if you believe there was a genuine error in the match
+                verification. False disputes may result in penalties.
               </p>
             </div>
           </div>
@@ -176,5 +189,5 @@ export default function DisputeMatchPage() {
         </form>
       </div>
     </main>
-  );
+  )
 }

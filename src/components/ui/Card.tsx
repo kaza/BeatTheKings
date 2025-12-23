@@ -1,10 +1,10 @@
-import React from 'react';
-import { cn } from '@/lib/utils';
+import React from 'react'
+import { cn } from '@/lib/utils'
 
 interface CardProps {
-  children: React.ReactNode;
-  className?: string;
-  onClick?: () => void;
+  children: React.ReactNode
+  className?: string
+  onClick?: () => void
 }
 
 export function Card({ children, className, onClick }: CardProps) {
@@ -19,5 +19,5 @@ export function Card({ children, className, onClick }: CardProps) {
     >
       {children}
     </div>
-  );
+  )
 }

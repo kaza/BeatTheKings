@@ -1,41 +1,41 @@
-'use client';
+'use client'
 
-import { useRouter } from 'next/navigation';
-import { Logo } from '@/components/layout/Logo';
-import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
-import { useApp } from '@/context/AppContext';
-import { mockChallenges, mockVenues, mockUserChallengeStatuses } from '@/lib/mockData';
+import { useRouter } from 'next/navigation'
+import { Logo } from '@/components/layout/Logo'
+import { Button } from '@/components/ui/Button'
+import { Card } from '@/components/ui/Card'
+import { Badge } from '@/components/ui/Badge'
+import { useApp } from '@/context/AppContext'
+import { mockChallenges, mockVenues, mockUserChallengeStatuses } from '@/lib/mockData'
 
 export default function ChallengesPage() {
-  const router = useRouter();
-  const { selectedSport, user } = useApp();
+  const router = useRouter()
+  const { selectedSport, user } = useApp()
 
-  const filteredChallenges = mockChallenges.filter(c => {
-    const venue = mockVenues.find(v => v.id === c.venueId);
-    return venue?.sportType === selectedSport;
-  });
+  const filteredChallenges = mockChallenges.filter((c) => {
+    const venue = mockVenues.find((v) => v.id === c.venueId)
+    return venue?.sportType === selectedSport
+  })
 
   const getChallengeStatus = (challengeId: string) => {
-    return mockUserChallengeStatuses.find(s => s.challengeId === challengeId);
-  };
+    return mockUserChallengeStatuses.find((s) => s.challengeId === challengeId)
+  }
 
   const getStatusBadge = (status?: string) => {
     if (!status || status === 'not_started') {
-      return <Badge>Not Started</Badge>;
+      return <Badge>Not Started</Badge>
     }
     if (status === 'in_progress') {
-      return <Badge variant="warning">In Progress</Badge>;
+      return <Badge variant="warning">In Progress</Badge>
     }
-    return <Badge variant="success">Completed ✓</Badge>;
-  };
+    return <Badge variant="success">Completed ✓</Badge>
+  }
 
   const getDifficultyColor = (difficulty: string) => {
-    if (difficulty === 'easy') return 'bg-green-100 text-green-800';
-    if (difficulty === 'medium') return 'bg-yellow-100 text-yellow-800';
-    return 'bg-red-100 text-red-800';
-  };
+    if (difficulty === 'easy') return 'bg-green-100 text-green-800'
+    if (difficulty === 'medium') return 'bg-yellow-100 text-yellow-800'
+    return 'bg-red-100 text-red-800'
+  }
 
   return (
     <main className="min-h-screen bg-white">
@@ -48,7 +48,9 @@ export default function ChallengesPage() {
             </div>
             <div>
               <h1 className="text-xl font-bold text-gray-900">Challenges</h1>
-              <p className="text-sm text-gray-500">{selectedSport.charAt(0).toUpperCase() + selectedSport.slice(1)}</p>
+              <p className="text-sm text-gray-500">
+                {selectedSport.charAt(0).toUpperCase() + selectedSport.slice(1)}
+              </p>
             </div>
           </div>
           <button
@@ -68,7 +70,9 @@ export default function ChallengesPage() {
                 <span className="text-xs text-gray-600">📍 {mockVenues[0]?.name}</span>
               </div>
               <div className="flex items-center gap-3 mt-2">
-                <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded">EASY</span>
+                <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded">
+                  EASY
+                </span>
                 <span className="text-xs text-gray-600">+100 XP</span>
                 <span className="text-xs text-gray-600">⏱️ 12m</span>
               </div>
@@ -89,8 +93,8 @@ export default function ChallengesPage() {
         {/* Challenges List */}
         <div className="space-y-4">
           {filteredChallenges.map((challenge) => {
-            const venue = mockVenues.find(v => v.id === challenge.venueId);
-            const status = getChallengeStatus(challenge.id);
+            const venue = mockVenues.find((v) => v.id === challenge.venueId)
+            const status = getChallengeStatus(challenge.id)
 
             return (
               <Card
@@ -104,9 +108,7 @@ export default function ChallengesPage() {
                     <div className="flex-1">
                       <h3 className="font-bold text-lg">{challenge.name}</h3>
                       <p className="text-sm text-gray-600">{challenge.description}</p>
-                      <p className="text-xs text-gray-500 mt-1">
-                        📍 {venue?.name}
-                      </p>
+                      <p className="text-xs text-gray-500 mt-1">📍 {venue?.name}</p>
                     </div>
                     {getStatusBadge(status?.status)}
                   </div>
@@ -116,18 +118,12 @@ export default function ChallengesPage() {
                     <Badge className={getDifficultyColor(challenge.difficulty)}>
                       {challenge.difficulty.toUpperCase()}
                     </Badge>
-                    <Badge variant="info">
-                      +{challenge.xpReward} XP
-                    </Badge>
+                    <Badge variant="info">+{challenge.xpReward} XP</Badge>
                     {challenge.parameters.timeLimit && (
-                      <Badge>
-                        ⏱️ {challenge.parameters.timeLimit}s
-                      </Badge>
+                      <Badge>⏱️ {challenge.parameters.timeLimit}s</Badge>
                     )}
                     {status?.attempts ? (
-                      <Badge variant="warning">
-                        {status.attempts} attempts
-                      </Badge>
+                      <Badge variant="warning">{status.attempts} attempts</Badge>
                     ) : null}
                   </div>
 
@@ -136,17 +132,19 @@ export default function ChallengesPage() {
                     variant={status?.status === 'completed' ? 'secondary' : 'primary'}
                     className="w-full"
                     onClick={(e) => {
-                      e.stopPropagation();
-                      router.push(`/challenge/${challenge.id}`);
+                      e.stopPropagation()
+                      router.push(`/challenge/${challenge.id}`)
                     }}
                   >
-                    {status?.status === 'completed' ? 'View Details' :
-                     status?.status === 'in_progress' ? 'Continue Challenge' :
-                     'Start Challenge'}
+                    {status?.status === 'completed'
+                      ? 'View Details'
+                      : status?.status === 'in_progress'
+                        ? 'Continue Challenge'
+                        : 'Start Challenge'}
                   </Button>
                 </div>
               </Card>
-            );
+            )
           })}
         </div>
 
@@ -160,5 +158,5 @@ export default function ChallengesPage() {
         </Card>
       </div>
     </main>
-  );
+  )
 }

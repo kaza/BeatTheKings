@@ -1,74 +1,76 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { Logo } from '@/components/layout/Logo';
-import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
-import { useApp } from '@/context/AppContext';
-import { mockMonthlyChallenge, mockVenues } from '@/lib/mockData';
-import { formatXP } from '@/lib/utils';
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { Logo } from '@/components/layout/Logo'
+import { Button } from '@/components/ui/Button'
+import { Card } from '@/components/ui/Card'
+import { Badge } from '@/components/ui/Badge'
+import { useApp } from '@/context/AppContext'
+import { mockMonthlyChallenge, mockVenues } from '@/lib/mockData'
+import { formatXP } from '@/lib/utils'
 
 interface RankingPlayer {
-  rank: number;
-  userId: string;
-  name: string;
-  ageGroup: string;
-  totalXp: number;
-  totalChallenges: number;
-  location?: string;
+  rank: number
+  userId: string
+  name: string
+  ageGroup: string
+  totalXp: number
+  totalChallenges: number
+  location?: string
 }
 
 export default function RankingPage() {
-  const router = useRouter();
-  const { selectedSport, user } = useApp();
-  const [tab, setTab] = useState<'venue' | 'city' | 'country'>('venue');
-  const [selectedVenue, setSelectedVenue] = useState(mockVenues[0]);
-  const [players, setPlayers] = useState<RankingPlayer[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter()
+  const { selectedSport, user } = useApp()
+  const [tab, setTab] = useState<'venue' | 'city' | 'country'>('venue')
+  const [selectedVenue, setSelectedVenue] = useState(mockVenues[0])
+  const [players, setPlayers] = useState<RankingPlayer[]>([])
+  const [isLoading, setIsLoading] = useState(false)
 
   const tabs = [
     { id: 'venue', label: 'Venue' },
     { id: 'city', label: 'City' },
     { id: 'country', label: 'Country' },
-  ];
+  ]
 
-  const ageGroup = user?.ageGroup || '14-16';
-  const userCity = user?.location?.split(',')[0]?.trim() || 'Vienna';
+  const ageGroup = user?.ageGroup || '14-16'
+  const userCity = user?.location?.split(',')[0]?.trim() || 'Vienna'
 
   // Fetch rankings when tab or selections change
   useEffect(() => {
-    fetchRankings();
-  }, [tab, selectedSport, selectedVenue]);
+    fetchRankings()
+  }, [tab, selectedSport, selectedVenue])
 
   const fetchRankings = async () => {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      let url = '';
+      let url = ''
 
       if (tab === 'country') {
-        url = `/api/rankings/country?sport=${selectedSport}`;
+        url = `/api/rankings/country?sport=${selectedSport}`
       } else if (tab === 'city') {
-        url = `/api/rankings/city/${encodeURIComponent(userCity)}?sport=${selectedSport}`;
+        url = `/api/rankings/city/${encodeURIComponent(userCity)}?sport=${selectedSport}`
       } else if (tab === 'venue') {
-        const response = await fetch(`/api/rankings/venue/${selectedVenue.id}?sport=${selectedSport}`);
-        const data = await response.json();
-        setPlayers(data.players || []);
-        setIsLoading(false);
-        return;
+        const response = await fetch(
+          `/api/rankings/venue/${selectedVenue.id}?sport=${selectedSport}`
+        )
+        const data = await response.json()
+        setPlayers(data.players || [])
+        setIsLoading(false)
+        return
       }
 
-      const response = await fetch(url);
-      const data = await response.json();
-      setPlayers(data);
+      const response = await fetch(url)
+      const data = await response.json()
+      setPlayers(data)
     } catch (error) {
-      console.error('Failed to fetch rankings:', error);
-      setPlayers([]);
+      console.error('Failed to fetch rankings:', error)
+      setPlayers([])
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <main className="min-h-screen bg-white">
@@ -99,9 +101,7 @@ export default function RankingPage() {
               key={t.id}
               onClick={() => setTab(t.id as any)}
               className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-all ${
-                tab === t.id
-                  ? 'bg-blue-600 text-white shadow-sm'
-                  : 'text-gray-600'
+                tab === t.id ? 'bg-blue-600 text-white shadow-sm' : 'text-gray-600'
               }`}
             >
               {t.label}
@@ -112,20 +112,18 @@ export default function RankingPage() {
         {/* Venue Selector */}
         {tab === 'venue' && (
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1.5">
-              Select Venue
-            </label>
+            <label className="block text-xs font-medium text-gray-600 mb-1.5">Select Venue</label>
             <select
               value={selectedVenue.id}
               onChange={(e) => {
-                const venue = mockVenues.find(v => v.id === e.target.value);
-                if (venue) setSelectedVenue(venue);
+                const venue = mockVenues.find((v) => v.id === e.target.value)
+                if (venue) setSelectedVenue(venue)
               }}
               className="w-full px-3 py-2.5 rounded-lg border border-gray-300 focus:border-blue-500 focus:outline-none bg-white text-sm"
             >
               {mockVenues
-                .filter(v => v.sportType === selectedSport)
-                .map(v => (
+                .filter((v) => v.sportType === selectedSport)
+                .map((v) => (
                   <option key={v.id} value={v.id}>
                     {v.name} - {v.city}
                   </option>
@@ -165,17 +163,26 @@ export default function RankingPage() {
                   className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
                 >
                   <div className="flex items-center gap-2.5">
-                    <div className={`w-7 h-7 rounded flex items-center justify-center text-xs font-bold ${
-                      index === 0 ? 'bg-yellow-400 text-white' :
-                      index === 1 ? 'bg-gray-300 text-gray-700' :
-                      index === 2 ? 'bg-orange-400 text-white' :
-                      'bg-white text-gray-600 border border-gray-200'
-                    }`}>
+                    <div
+                      className={`w-7 h-7 rounded flex items-center justify-center text-xs font-bold ${
+                        index === 0
+                          ? 'bg-yellow-400 text-white'
+                          : index === 1
+                            ? 'bg-gray-300 text-gray-700'
+                            : index === 2
+                              ? 'bg-orange-400 text-white'
+                              : 'bg-white text-gray-600 border border-gray-200'
+                      }`}
+                    >
                       #{player.rank}
                     </div>
                     <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                      <svg className="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                      <svg
+                        className="w-5 h-5 text-gray-600"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                       </svg>
                     </div>
                     <div>
@@ -199,7 +206,9 @@ export default function RankingPage() {
             <span className="text-xl">🏆</span>
             <h2 className="text-base font-bold">{mockMonthlyChallenge.title}</h2>
           </div>
-          <p className="text-xs mb-3 text-purple-50 leading-relaxed">{mockMonthlyChallenge.description}</p>
+          <p className="text-xs mb-3 text-purple-50 leading-relaxed">
+            {mockMonthlyChallenge.description}
+          </p>
           <div className="inline-block bg-purple-700 bg-opacity-60 text-white px-3 py-1 rounded-full text-xs font-medium mb-3">
             Prize: {mockMonthlyChallenge.prizeDescription}
           </div>
@@ -211,5 +220,5 @@ export default function RankingPage() {
         </div>
       </div>
     </main>
-  );
+  )
 }

@@ -44,12 +44,14 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
 ## 📱 Application Flow
 
 ### Onboarding (Pages 1-4)
+
 1. **Email Verification** - Enter email, receive verification code
 2. **Code Verification** - 6-digit code input
 3. **Profile Registration** - Name, age, gender, location (auto-calculates age group)
 4. **Profile Photo** - Upload or capture photo
 
 ### Main App (Pages 5-10)
+
 5. **Welcome Hub** - Feature unlock system (avatar required)
 6. **Avatar Creation** - Customize appearance, hair, jersey number, sport selection
 7. **Rankings** - View top 10 players by Venue/City/Country
@@ -68,6 +70,7 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
 ## 📊 Data Model
 
 Fully aligned with MVP database schema:
+
 - ✅ User (with age groups, no face recognition)
 - ✅ Venue (sport-agnostic: basketball, soccer, running, cycling, skiing)
 - ✅ Challenge (with flexible parameters)
@@ -80,11 +83,13 @@ See [DATA_MODEL.md](./DATA_MODEL.md) for complete schema.
 ## 🎨 Key Features
 
 ### Progressive Feature Unlock
+
 - Create avatar to unlock Rankings, Map, and Challenges
 - Visual lock indicators
 - Smooth unlock animations
 
 ### Sport Selection
+
 - Basketball 🏀
 - Soccer ⚽
 - Running 🏃
@@ -92,6 +97,7 @@ See [DATA_MODEL.md](./DATA_MODEL.md) for complete schema.
 - Skiing ⛷️
 
 ### Challenge System
+
 - 10-second countdown
 - Video recording interface
 - Try again / Upload options
@@ -99,12 +105,14 @@ See [DATA_MODEL.md](./DATA_MODEL.md) for complete schema.
 - XP rewards
 
 ### Rankings
+
 - Three-tier system (Venue/City/Country)
 - Top 10 lists
 - Monthly challenges
 - King of the Venue indicators (crown)
 
 ### Interactive Map
+
 - Venue markers with active player counts
 - Sport filtering
 - King indicators
@@ -157,6 +165,7 @@ src/
 ## 🎮 Mock Data
 
 All data is client-side mock data:
+
 - No backend API calls
 - No database connections
 - Forms store in Context/State
@@ -191,6 +200,7 @@ All code is committed and pushed!
 ## 📞 Support
 
 For issues or questions, check:
+
 - GitHub Issues
 - Documentation files
 - Azure deployment logs

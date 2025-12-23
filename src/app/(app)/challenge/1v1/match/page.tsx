@@ -1,47 +1,47 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { Logo } from '@/components/layout/Logo';
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { Logo } from '@/components/layout/Logo'
 
 interface Opponent {
-  id: string;
-  name: string;
+  id: string
+  name: string
 }
 
 export default function ActiveMatchPage() {
-  const router = useRouter();
-  const [opponent, setOpponent] = useState<Opponent | null>(null);
-  const [seconds, setSeconds] = useState(0);
-  const [showEndDialog, setShowEndDialog] = useState(false);
+  const router = useRouter()
+  const [opponent, setOpponent] = useState<Opponent | null>(null)
+  const [seconds, setSeconds] = useState(0)
+  const [showEndDialog, setShowEndDialog] = useState(false)
 
   useEffect(() => {
-    const savedOpponent = sessionStorage.getItem('selectedOpponent');
+    const savedOpponent = sessionStorage.getItem('selectedOpponent')
     if (savedOpponent) {
-      setOpponent(JSON.parse(savedOpponent));
+      setOpponent(JSON.parse(savedOpponent))
     }
 
     // Timer
     const timer = setInterval(() => {
-      setSeconds(prev => prev + 1);
-    }, 1000);
+      setSeconds((prev) => prev + 1)
+    }, 1000)
 
-    return () => clearInterval(timer);
-  }, []);
+    return () => clearInterval(timer)
+  }, [])
 
   const formatTime = (secs: number) => {
-    const mins = Math.floor(secs / 60);
-    const remainingSecs = secs % 60;
-    return `${mins.toString().padStart(2, '0')}:${remainingSecs.toString().padStart(2, '0')}`;
-  };
+    const mins = Math.floor(secs / 60)
+    const remainingSecs = secs % 60
+    return `${mins.toString().padStart(2, '0')}:${remainingSecs.toString().padStart(2, '0')}`
+  }
 
   const handleEndMatch = () => {
     // Save match duration
-    sessionStorage.setItem('matchDuration', seconds.toString());
-    router.push('/challenge/1v1/upload');
-  };
+    sessionStorage.setItem('matchDuration', seconds.toString())
+    router.push('/challenge/1v1/upload')
+  }
 
-  if (!opponent) return null;
+  if (!opponent) return null
 
   return (
     <main className="min-h-screen bg-white">
@@ -70,7 +70,7 @@ export default function ActiveMatchPage() {
             <div className="text-center">
               <div className="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-400 flex items-center justify-center mb-2">
                 <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                 </svg>
               </div>
               <p className="text-xs font-bold text-gray-900">You</p>
@@ -86,7 +86,7 @@ export default function ActiveMatchPage() {
             <div className="text-center">
               <div className="w-16 h-16 rounded-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center mb-2">
                 <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                 </svg>
               </div>
               <p className="text-xs font-bold text-gray-900">{opponent.name}</p>
@@ -105,14 +105,13 @@ export default function ActiveMatchPage() {
           </div>
 
           {/* Timer */}
-          <div className="text-4xl font-bold text-red-900 mb-1">
-            {formatTime(seconds)}
-          </div>
+          <div className="text-4xl font-bold text-red-900 mb-1">{formatTime(seconds)}</div>
           <p className="text-xs text-red-700">Match duration</p>
 
           <div className="mt-4 pt-4 border-t border-red-200">
             <p className="text-xs text-red-800">
-              Keep recording until the match is completely finished. Stop recording only after the final point is scored.
+              Keep recording until the match is completely finished. Stop recording only after the
+              final point is scored.
             </p>
           </div>
         </div>
@@ -127,11 +126,10 @@ export default function ActiveMatchPage() {
 
         {/* AI Verification Info */}
         <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-          <p className="text-xs font-semibold text-blue-900 mb-2">
-            AI Verification:
-          </p>
+          <p className="text-xs font-semibold text-blue-900 mb-2">AI Verification:</p>
           <p className="text-xs text-blue-800">
-            After upload, our system will analyze the recording to verify players, count points, and determine the winner. This usually takes 1-2 minutes.
+            After upload, our system will analyze the recording to verify players, count points, and
+            determine the winner. This usually takes 1-2 minutes.
           </p>
         </div>
 
@@ -163,5 +161,5 @@ export default function ActiveMatchPage() {
         )}
       </div>
     </main>
-  );
+  )
 }

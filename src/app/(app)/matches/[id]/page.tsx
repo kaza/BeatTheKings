@@ -1,49 +1,49 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useState, useEffect } from 'react'
+import { useRouter, useParams } from 'next/navigation'
 
 interface MatchDetails {
-  id: string;
-  opponentName: string;
-  opponentId: string;
-  venue: string;
-  date: Date;
-  status: 'pending' | 'verified' | 'disputed';
+  id: string
+  opponentName: string
+  opponentId: string
+  venue: string
+  date: Date
+  status: 'pending' | 'verified' | 'disputed'
   result?: {
-    winner: 'you' | 'opponent';
-    yourScore: number;
-    opponentScore: number;
-    xpEarned: number;
-    duration: string;
-    accuracy: string;
-  };
-  canDispute: boolean;
-  recordingUrl?: string;
+    winner: 'you' | 'opponent'
+    yourScore: number
+    opponentScore: number
+    xpEarned: number
+    duration: string
+    accuracy: string
+  }
+  canDispute: boolean
+  recordingUrl?: string
 }
 
 export default function MatchDetailsPage() {
-  const router = useRouter();
-  const params = useParams();
-  const matchId = params.id as string;
-  const [match, setMatch] = useState<MatchDetails | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter()
+  const params = useParams()
+  const matchId = params.id as string
+  const [match, setMatch] = useState<MatchDetails | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     // Fetch match details
     fetch(`/api/matches/${matchId}`)
-      .then(res => res.json())
-      .then(data => setMatch(data))
-      .catch(err => console.error('Failed to fetch match:', err))
-      .finally(() => setIsLoading(false));
-  }, [matchId]);
+      .then((res) => res.json())
+      .then((data) => setMatch(data))
+      .catch((err) => console.error('Failed to fetch match:', err))
+      .finally(() => setIsLoading(false))
+  }, [matchId])
 
   if (isLoading) {
     return (
       <main className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-gray-500">Loading match details...</div>
       </main>
-    );
+    )
   }
 
   if (!match) {
@@ -51,7 +51,7 @@ export default function MatchDetailsPage() {
       <main className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-gray-500">Match not found</div>
       </main>
-    );
+    )
   }
 
   return (
@@ -112,7 +112,7 @@ export default function MatchDetailsPage() {
                   day: 'numeric',
                   year: 'numeric',
                   hour: '2-digit',
-                  minute: '2-digit'
+                  minute: '2-digit',
                 })}
               </span>
             </div>
@@ -133,18 +133,22 @@ export default function MatchDetailsPage() {
               <div className="flex items-center justify-center gap-8">
                 <div className="text-center">
                   <p className="text-xs text-gray-600 mb-1">You</p>
-                  <p className={`text-3xl font-bold ${
-                    match.result.winner === 'you' ? 'text-green-600' : 'text-gray-600'
-                  }`}>
+                  <p
+                    className={`text-3xl font-bold ${
+                      match.result.winner === 'you' ? 'text-green-600' : 'text-gray-600'
+                    }`}
+                  >
                     {match.result.yourScore}
                   </p>
                 </div>
                 <div className="text-2xl font-bold text-gray-400">-</div>
                 <div className="text-center">
                   <p className="text-xs text-gray-600 mb-1">{match.opponentName}</p>
-                  <p className={`text-3xl font-bold ${
-                    match.result.winner === 'opponent' ? 'text-green-600' : 'text-gray-600'
-                  }`}>
+                  <p
+                    className={`text-3xl font-bold ${
+                      match.result.winner === 'opponent' ? 'text-green-600' : 'text-gray-600'
+                    }`}
+                  >
                     {match.result.opponentScore}
                   </p>
                 </div>
@@ -187,14 +191,28 @@ export default function MatchDetailsPage() {
           <div className="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-6">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0">
-                <svg className="w-6 h-6 text-yellow-600 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                <svg
+                  className="w-6 h-6 text-yellow-600 animate-spin"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                  />
                 </svg>
               </div>
               <div>
-                <p className="text-sm font-semibold text-yellow-900 mb-1">Verification in Progress</p>
+                <p className="text-sm font-semibold text-yellow-900 mb-1">
+                  Verification in Progress
+                </p>
                 <p className="text-xs text-yellow-800">
-                  Our AI is analyzing your match recording to verify players, track points, and determine the winner. This usually takes 1-2 minutes. You'll receive a notification when verification is complete.
+                  Our AI is analyzing your match recording to verify players, track points, and
+                  determine the winner. This usually takes 1-2 minutes. You'll receive a
+                  notification when verification is complete.
                 </p>
               </div>
             </div>
@@ -207,13 +225,18 @@ export default function MatchDetailsPage() {
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
                 <svg className="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd"/>
+                  <path
+                    fillRule="evenodd"
+                    d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                    clipRule="evenodd"
+                  />
                 </svg>
               </div>
               <div>
                 <p className="text-sm font-semibold text-red-900 mb-1">Match Under Review</p>
                 <p className="text-xs text-red-800">
-                  This match has been disputed and is currently under review by our team. We'll resolve the dispute within 24 hours and notify both players of the decision.
+                  This match has been disputed and is currently under review by our team. We'll
+                  resolve the dispute within 24 hours and notify both players of the decision.
                 </p>
               </div>
             </div>
@@ -231,5 +254,5 @@ export default function MatchDetailsPage() {
         )}
       </div>
     </main>
-  );
+  )
 }

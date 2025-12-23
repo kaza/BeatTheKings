@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server'
 
 const mockMatchDetails: Record<string, any> = {
   'match-1': {
@@ -82,17 +82,15 @@ const mockMatchDetails: Record<string, any> = {
     canDispute: false,
     recordingUrl: '/recordings/match-5.mp4',
   },
-};
+}
 
-export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
-  const match = mockMatchDetails[params.id];
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const match = mockMatchDetails[id]
 
   if (!match) {
-    return NextResponse.json({ error: 'Match not found' }, { status: 404 });
+    return NextResponse.json({ error: 'Match not found' }, { status: 404 })
   }
 
-  return NextResponse.json(match);
+  return NextResponse.json(match)
 }

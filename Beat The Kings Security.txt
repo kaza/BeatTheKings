@@ -1,0 +1,10 @@
+NextAuth + Next.js standard stack, kept simple
+
+  - OAuth only (Google/Azure) - no passwords stored
+  - NextAuth handles sessions, CSRF, secure cookies automatically
+  - Middleware protects all routes except public (rankings, venues, login)
+  - Each API checks: valid user → owns the data → valid input (Zod)
+  - Next.js/React escapes XSS by default
+  - Prisma prevents SQL injection by default
+
+  No custom crypto, no reinventing wheels - just using the stack properly ✓

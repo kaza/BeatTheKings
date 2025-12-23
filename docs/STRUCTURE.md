@@ -71,11 +71,13 @@ src/
 ## Route Groups Explanation
 
 ### (auth) Group
+
 - Contains all authentication and onboarding pages
 - Users navigate through: Login → Register → Verify → Photo
 - These routes are public and accessible before login
 
 ### (app) Group
+
 - Contains all protected main application pages
 - Requires user to be authenticated
 - Main flow: Welcome → Avatar → Rankings/Map/Challenges
@@ -86,21 +88,21 @@ All imports now use the new structure:
 
 ```typescript
 // Components
-import { Logo } from '@/components/layout/Logo';
-import { SessionProvider } from '@/components/layout/SessionProvider';
-import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
+import { Logo } from '@/components/layout/Logo'
+import { SessionProvider } from '@/components/layout/SessionProvider'
+import { Button } from '@/components/ui/Button'
+import { Card } from '@/components/ui/Card'
 
 // Utils
-import { mockData } from '@/utils/mockData';
-import { formatXP } from '@/utils/utils';
+import { mockData } from '@/utils/mockData'
+import { formatXP } from '@/utils/utils'
 
 // Context & Hooks
-import { useApp } from '@/context/AppContext';
-import { useAuth } from '@/hooks/useAuth';
+import { useApp } from '@/context/AppContext'
+import { useAuth } from '@/hooks/useAuth'
 
 // Types
-import type { User, Avatar } from '@/types';
+import type { User, Avatar } from '@/types'
 ```
 
 ## Benefits of This Structure

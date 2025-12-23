@@ -15,27 +15,30 @@ Simple but secure approach using Next.js + NextAuth + Prisma stack.
 Implemented via `middleware.ts` at project root.
 
 **Public (no auth):**
+
 - `/`, `/login` - landing and auth pages
 - `/api/auth/*` - NextAuth handlers
 - `GET /api/rankings/*` - view rankings
 - `GET /api/venues/*` - view venues/courts
 
 **Private (auth required):**
+
 - All other routes
 - All POST/PUT/PATCH/DELETE operations
 - Video uploads
 
 ## Security Layers
 
-| Layer | What | Why |
-|-------|------|-----|
-| Authentication | NextAuth middleware check | Is this a valid user? |
-| Authorization | `session.user.id === resource.ownerId` in routes | Can this user do THIS action? |
-| Validation | Zod schemas on inputs | Is the data safe/valid? |
+| Layer          | What                                             | Why                           |
+| -------------- | ------------------------------------------------ | ----------------------------- |
+| Authentication | NextAuth middleware check                        | Is this a valid user?         |
+| Authorization  | `session.user.id === resource.ownerId` in routes | Can this user do THIS action? |
+| Validation     | Zod schemas on inputs                            | Is the data safe/valid?       |
 
 ## Built-in Protections
 
 What the stack gives us for free:
+
 - **XSS** - React's JSX escaping
 - **SQL Injection** - Prisma's parameterized queries
 - **CSRF** - NextAuth handles for auth endpoints

@@ -1,20 +1,20 @@
-'use client';
+'use client'
 
-import { useRouter, useParams } from 'next/navigation';
-import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
-import { useApp } from '@/context/AppContext';
-import { mockChallenges } from '@/lib/mockData';
-import { formatXP } from '@/lib/utils';
+import { useRouter, useParams } from 'next/navigation'
+import { Button } from '@/components/ui/Button'
+import { Card } from '@/components/ui/Card'
+import { Badge } from '@/components/ui/Badge'
+import { useApp } from '@/context/AppContext'
+import { mockChallenges } from '@/lib/mockData'
+import { formatXP } from '@/lib/utils'
 
 export default function ResultsPage() {
-  const router = useRouter();
-  const params = useParams();
-  const { updateStats } = useApp();
-  const challengeId = params.id as string;
+  const router = useRouter()
+  const params = useParams()
+  const { updateStats } = useApp()
+  const challengeId = params.id as string
 
-  const challenge = mockChallenges.find(c => c.id === challengeId);
+  const challenge = mockChallenges.find((c) => c.id === challengeId)
 
   // Mock results
   const results = {
@@ -24,21 +24,21 @@ export default function ResultsPage() {
     timeTaken: 52, // seconds
     challengeCompleted: true,
     xpEarned: challenge?.xpReward || 0,
-  };
+  }
 
   const handleNextChallenge = () => {
     if (challenge) {
-      updateStats(results.xpEarned, 1);
+      updateStats(results.xpEarned, 1)
     }
-    router.push('/challenges');
-  };
+    router.push('/challenges')
+  }
 
   const handleBackToAvatar = () => {
     if (challenge) {
-      updateStats(results.xpEarned, 1);
+      updateStats(results.xpEarned, 1)
     }
-    router.push('/avatar');
-  };
+    router.push('/avatar')
+  }
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-6">
@@ -46,9 +46,7 @@ export default function ResultsPage() {
         {/* Success Header */}
         <div className="text-center space-y-4">
           <div className="text-8xl">🎉</div>
-          <h1 className="text-4xl font-bold text-gray-900">
-            Challenge Complete!
-          </h1>
+          <h1 className="text-4xl font-bold text-gray-900">Challenge Complete!</h1>
           <p className="text-xl text-gray-600">{challenge?.name}</p>
         </div>
 
@@ -77,7 +75,8 @@ export default function ResultsPage() {
               <div className="bg-white/20 rounded-lg p-4">
                 <p className="text-sm opacity-90">Time</p>
                 <p className="text-2xl font-bold">
-                  {Math.floor(results.timeTaken / 60)}:{(results.timeTaken % 60).toString().padStart(2, '0')}
+                  {Math.floor(results.timeTaken / 60)}:
+                  {(results.timeTaken % 60).toString().padStart(2, '0')}
                 </p>
               </div>
 
@@ -95,9 +94,7 @@ export default function ResultsPage() {
         <Card className="text-center bg-yellow-50 border-2 border-yellow-300">
           <div className="space-y-2">
             <p className="text-gray-600">XP Earned</p>
-            <p className="text-5xl font-bold text-yellow-600">
-              +{formatXP(results.xpEarned)}
-            </p>
+            <p className="text-5xl font-bold text-yellow-600">+{formatXP(results.xpEarned)}</p>
             <Badge variant="success" className="text-lg px-4 py-2">
               Great Job! 🎯
             </Badge>
@@ -127,17 +124,10 @@ export default function ResultsPage() {
 
         {/* Action Buttons */}
         <div className="grid grid-cols-2 gap-4">
-          <Button
-            variant="outline"
-            size="lg"
-            onClick={handleBackToAvatar}
-          >
+          <Button variant="outline" size="lg" onClick={handleBackToAvatar}>
             View Avatar
           </Button>
-          <Button
-            size="lg"
-            onClick={handleNextChallenge}
-          >
+          <Button size="lg" onClick={handleNextChallenge}>
             Next Challenge →
           </Button>
         </div>
@@ -146,11 +136,15 @@ export default function ResultsPage() {
         <Card className="text-center">
           <p className="text-sm text-gray-600 mb-3">Share your achievement!</p>
           <div className="flex gap-2 justify-center">
-            <Button variant="ghost" size="sm">📱 Share</Button>
-            <Button variant="ghost" size="sm">🔗 Copy Link</Button>
+            <Button variant="ghost" size="sm">
+              📱 Share
+            </Button>
+            <Button variant="ghost" size="sm">
+              🔗 Copy Link
+            </Button>
           </div>
         </Card>
       </div>
     </main>
-  );
+  )
 }

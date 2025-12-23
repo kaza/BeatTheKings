@@ -117,6 +117,7 @@ AZURE_AD_TENANT_ID="12345678-1234-1234-1234-123456789abc"
 ## Step 6: Test the Authentication
 
 1. **Start the development server:**
+
    ```bash
    npm run dev
    ```
@@ -135,67 +136,71 @@ AZURE_AD_TENANT_ID="12345678-1234-1234-1234-123456789abc"
 ### Check if user is authenticated:
 
 ```tsx
-'use client';
+'use client'
 
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/useAuth'
 
 export default function MyComponent() {
-  const { user, isAuthenticated, isLoading } = useAuth();
+  const { user, isAuthenticated, isLoading } = useAuth()
 
-  if (isLoading) return <div>Loading...</div>;
-  if (!isAuthenticated) return <div>Please sign in</div>;
+  if (isLoading) return <div>Loading...</div>
+  if (!isAuthenticated) return <div>Please sign in</div>
 
-  return <div>Welcome, {user?.name}!</div>;
+  return <div>Welcome, {user?.name}!</div>
 }
 ```
 
 ### Add sign-out button:
 
 ```tsx
-import { SignOutButton } from '@/components/SignOutButton';
+import { SignOutButton } from '@/components/SignOutButton'
 
 export default function MyPage() {
   return (
     <div>
       <SignOutButton />
     </div>
-  );
+  )
 }
 ```
 
 ### Protect pages (server-side):
 
 ```tsx
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { redirect } from 'next/navigation';
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { redirect } from 'next/navigation'
 
 export default async function ProtectedPage() {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions)
 
   if (!session) {
-    redirect('/');
+    redirect('/')
   }
 
-  return <div>Protected content</div>;
+  return <div>Protected content</div>
 }
 ```
 
 ## Troubleshooting
 
 ### "Configuration error" or "Invalid credentials"
+
 - Double-check all credentials in `.env.local`
 - Make sure there are no extra spaces or quotes
 - Restart your dev server after changing `.env.local`
 
 ### "Redirect URI mismatch"
+
 - Verify the redirect URIs in both Google Console and Azure Portal match exactly
 - Remember: `http://localhost:3000/api/auth/callback/google` and `/azure-ad`
 
 ### "Missing NEXTAUTH_SECRET"
+
 - Make sure you generated and added the NEXTAUTH_SECRET to `.env.local`
 
 ### Cannot sign in
+
 - Check browser console for errors
 - Check terminal for server errors
 - Verify all OAuth apps are properly configured and active
@@ -220,6 +225,7 @@ When deploying to production:
 ---
 
 For more information, visit:
+
 - [NextAuth.js Documentation](https://next-auth.js.org/)
 - [Google OAuth Setup](https://next-auth.js.org/providers/google)
 - [Azure AD Setup](https://next-auth.js.org/providers/azure-ad)

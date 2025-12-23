@@ -1,33 +1,33 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { Logo } from '@/components/layout/Logo';
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { Logo } from '@/components/layout/Logo'
 
 interface Opponent {
-  id: string;
-  name: string;
-  memberSince: Date;
+  id: string
+  name: string
+  memberSince: Date
 }
 
 export default function PlayerVerificationPage() {
-  const router = useRouter();
-  const [opponent, setOpponent] = useState<Opponent | null>(null);
+  const router = useRouter()
+  const [opponent, setOpponent] = useState<Opponent | null>(null)
 
   useEffect(() => {
-    const savedOpponent = sessionStorage.getItem('selectedOpponent');
+    const savedOpponent = sessionStorage.getItem('selectedOpponent')
     if (savedOpponent) {
-      setOpponent(JSON.parse(savedOpponent));
+      setOpponent(JSON.parse(savedOpponent))
     }
-  }, []);
+  }, [])
 
-  if (!opponent) return null;
+  if (!opponent) return null
 
   const memberDate = new Date(opponent.memberSince).toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
-    year: 'numeric'
-  });
+    year: 'numeric',
+  })
 
   return (
     <main className="min-h-screen bg-white">
@@ -69,7 +69,7 @@ export default function PlayerVerificationPage() {
             {/* Avatar */}
             <div className="w-20 h-20 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center overflow-hidden border-4 border-blue-500">
               <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
               </svg>
             </div>
 
@@ -88,7 +88,11 @@ export default function PlayerVerificationPage() {
             <div className="flex items-start gap-3">
               <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
                 <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
                 </svg>
               </div>
               <p className="text-sm text-gray-700">
@@ -99,18 +103,24 @@ export default function PlayerVerificationPage() {
             <div className="flex items-start gap-3">
               <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
                 <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
                 </svg>
               </div>
-              <p className="text-sm text-gray-700">
-                Verify their name verbally
-              </p>
+              <p className="text-sm text-gray-700">Verify their name verbally</p>
             </div>
 
             <div className="flex items-start gap-3">
               <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
                 <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
                 </svg>
               </div>
               <p className="text-sm text-gray-700">
@@ -129,5 +139,5 @@ export default function PlayerVerificationPage() {
         </button>
       </div>
     </main>
-  );
+  )
 }

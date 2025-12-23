@@ -1,42 +1,42 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { Logo } from '@/components/layout/Logo';
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { Logo } from '@/components/layout/Logo'
 
 interface Opponent {
-  id: string;
-  name: string;
-  profilePictureUrl: string;
-  winRate: number;
-  matchesPlayed: number;
-  ageGroup: string;
-  location: string;
-  isAvailable: boolean;
-  memberSince: Date;
+  id: string
+  name: string
+  profilePictureUrl: string
+  winRate: number
+  matchesPlayed: number
+  ageGroup: string
+  location: string
+  isAvailable: boolean
+  memberSince: Date
 }
 
 export default function SelectOpponentPage() {
-  const router = useRouter();
-  const [opponents, setOpponents] = useState<Opponent[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter()
+  const [opponents, setOpponents] = useState<Opponent[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     fetch('/api/challenges/available-opponents?sport=basketball')
-      .then(res => res.json())
-      .then(data => setOpponents(data))
-      .catch(err => console.error('Failed to fetch opponents:', err))
-      .finally(() => setIsLoading(false));
-  }, []);
+      .then((res) => res.json())
+      .then((data) => setOpponents(data))
+      .catch((err) => console.error('Failed to fetch opponents:', err))
+      .finally(() => setIsLoading(false))
+  }, [])
 
   const handleSelectOpponent = (opponentId: string) => {
     // Store selected opponent in sessionStorage
-    const opponent = opponents.find(o => o.id === opponentId);
+    const opponent = opponents.find((o) => o.id === opponentId)
     if (opponent) {
-      sessionStorage.setItem('selectedOpponent', JSON.stringify(opponent));
-      router.push('/challenge/1v1/setup');
+      sessionStorage.setItem('selectedOpponent', JSON.stringify(opponent))
+      router.push('/challenge/1v1/setup')
     }
-  };
+  }
 
   return (
     <main className="min-h-screen bg-white">
@@ -84,7 +84,7 @@ export default function SelectOpponentPage() {
                   {/* Avatar */}
                   <div className="w-16 h-16 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 flex-shrink-0 flex items-center justify-center overflow-hidden border-4 border-orange-500">
                     <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                     </svg>
                   </div>
 
@@ -92,7 +92,9 @@ export default function SelectOpponentPage() {
                   <div className="flex-1">
                     <h3 className="font-bold text-lg text-gray-900">{opponent.name}</h3>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className="text-xs text-gray-600">🏆 Win Rate: {opponent.winRate}%</span>
+                      <span className="text-xs text-gray-600">
+                        🏆 Win Rate: {opponent.winRate}%
+                      </span>
                     </div>
                     <div className="text-xs text-gray-600 mt-1">
                       🎮 {opponent.matchesPlayed} matches played
@@ -119,5 +121,5 @@ export default function SelectOpponentPage() {
         </div>
       </div>
     </main>
-  );
+  )
 }

@@ -7,27 +7,32 @@ Track all database schema changes and migrations.
 ## [Unreleased] - Schema V2
 
 ### Summary
+
 Major schema redesign introducing proper location hierarchy, Sport as first-class entity, 1v1 Match system, and dual currency (XP/RP).
 
 ### Added
 
 #### Location System
+
 - `Country` - Country with ISO 3166-1 code
 - `State` - State/province/region within country
 - `City` - City within state
 - `District` - Optional neighborhood/district within city
 
 #### Game System
+
 - `Sport` - First-class sport entity (was: string field)
 - `Match` - 1v1 player matches with score tracking and mutual agreement
 - `ChallengeAttempt` - Replaces ChallengeSubmission with simplified structure
 
 #### Avatar System
+
 - `AvatarItem` - Catalog of all available items with unlock requirements
 - `UserUnlockedItem` - Tracks items unlocked per user
 - `AvatarEquipment` - Sport-specific equipment loadouts
 
 #### Currency
+
 - `totalRp` - Lifetime reward points earned
 - `availableRp` - Spendable reward points balance
 - `rpReward` on Challenge - RP earned for completion
@@ -36,6 +41,7 @@ Major schema redesign introducing proper location hierarchy, Sport as first-clas
 ### Changed
 
 #### User
+
 - Removed: `emailVerified`, `verificationCode`, `verificationCodeExpiry` (OAuth replaces email verification)
 - Removed: `location` string field
 - Removed: `profilePictureUrl` (avatar system replaces this)
@@ -46,6 +52,7 @@ Major schema redesign introducing proper location hierarchy, Sport as first-clas
 - Changed: `email` now comes from OAuth provider
 
 #### Venue
+
 - Removed: `venueType`, `sportType` string fields
 - Removed: `city`, `country` string fields
 - Removed: `activePlayerCount` (calculated from ActivePlayer)
@@ -56,11 +63,13 @@ Major schema redesign introducing proper location hierarchy, Sport as first-clas
 - Added: `isActive` for soft disable
 
 #### Challenge
+
 - Added: `sportId` FK to Sport
 - Added: `rpReward` for dual currency
 - Removed: `parameters` JSON field (simplified)
 
 #### PlayerStats
+
 - Changed: `sportType` string → `sportId` FK
 - Removed: `venueStatsJson` (separate venue ranking system planned)
 - Added: `totalRp`, `availableRp` for RP tracking
@@ -69,6 +78,7 @@ Major schema redesign introducing proper location hierarchy, Sport as first-clas
 - Added: `usersInvited` for referral tracking
 
 #### ActivePlayer
+
 - Added: `latitude`, `longitude` for precise location
 
 ### Removed
@@ -93,6 +103,7 @@ This is a breaking change requiring data migration:
 ### Added
 
 Core tables for MVP Phase 1:
+
 - `User` - Authentication and profile with email verification
 - `Venue` - Sport venues with geolocation
 - `Challenge` - Activities at venues

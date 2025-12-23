@@ -1,43 +1,43 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { Logo } from '@/components/layout/Logo';
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { Logo } from '@/components/layout/Logo'
 
 interface Opponent {
-  id: string;
-  name: string;
+  id: string
+  name: string
 }
 
 export default function MatchResultsPage() {
-  const router = useRouter();
-  const [opponent, setOpponent] = useState<Opponent | null>(null);
-  const [isProcessing, setIsProcessing] = useState(true);
+  const router = useRouter()
+  const [opponent, setOpponent] = useState<Opponent | null>(null)
+  const [isProcessing, setIsProcessing] = useState(true)
 
   useEffect(() => {
-    const savedOpponent = sessionStorage.getItem('selectedOpponent');
+    const savedOpponent = sessionStorage.getItem('selectedOpponent')
     if (savedOpponent) {
-      setOpponent(JSON.parse(savedOpponent));
+      setOpponent(JSON.parse(savedOpponent))
     }
 
     // Simulate AI processing
     const timer = setTimeout(() => {
-      setIsProcessing(false);
-    }, 3000);
+      setIsProcessing(false)
+    }, 3000)
 
-    return () => clearTimeout(timer);
-  }, []);
+    return () => clearTimeout(timer)
+  }, [])
 
   const handleFinish = () => {
     // Clear session storage
-    sessionStorage.removeItem('selectedOpponent');
-    sessionStorage.removeItem('matchDuration');
+    sessionStorage.removeItem('selectedOpponent')
+    sessionStorage.removeItem('matchDuration')
 
     // Navigate back to challenges
-    router.push('/challenges');
-  };
+    router.push('/challenges')
+  }
 
-  if (!opponent) return null;
+  if (!opponent) return null
 
   if (isProcessing) {
     return (
@@ -45,9 +45,25 @@ export default function MatchResultsPage() {
         <div className="w-full max-w-md mx-auto p-4">
           <div className="bg-white border-2 border-gray-200 rounded-xl p-8 text-center">
             <div className="mb-6">
-              <svg className="animate-spin h-16 w-16 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              <svg
+                className="animate-spin h-16 w-16 text-blue-600 mx-auto"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
               </svg>
             </div>
             <h2 className="text-xl font-bold text-gray-900 mb-2">Analyzing Recording...</h2>
@@ -57,7 +73,7 @@ export default function MatchResultsPage() {
           </div>
         </div>
       </main>
-    );
+    )
   }
 
   return (
@@ -91,12 +107,14 @@ export default function MatchResultsPage() {
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-300 to-yellow-400 flex items-center justify-center">
                   <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                   </svg>
                 </div>
                 <div>
                   <p className="font-bold text-gray-900">You</p>
-                  <span className="text-xs px-2 py-1 bg-green-500 text-white rounded font-semibold">WINNER</span>
+                  <span className="text-xs px-2 py-1 bg-green-500 text-white rounded font-semibold">
+                    WINNER
+                  </span>
                 </div>
               </div>
               <div className="text-right">
@@ -110,7 +128,7 @@ export default function MatchResultsPage() {
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center">
                   <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                   </svg>
                 </div>
                 <div>
@@ -166,5 +184,5 @@ export default function MatchResultsPage() {
         </button>
       </div>
     </main>
-  );
+  )
 }

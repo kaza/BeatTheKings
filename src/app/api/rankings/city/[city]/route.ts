@@ -1,19 +1,17 @@
-import { NextResponse } from 'next/server';
-import { mockTopPlayers } from '@/lib/mockData';
+import { NextResponse } from 'next/server'
+import { mockTopPlayers } from '@/lib/mockData'
 
-export async function GET(
-  request: Request,
-  { params }: { params: { city: string } }
-) {
-  const { searchParams } = new URL(request.url);
-  const sport = searchParams.get('sport') || 'basketball';
-  const city = decodeURIComponent(params.city);
+export async function GET(request: Request, { params }: { params: Promise<{ city: string }> }) {
+  const { city: cityParam } = await params
+  const { searchParams } = new URL(request.url)
+  const sport = searchParams.get('sport') || 'basketball'
+  const city = decodeURIComponent(cityParam)
 
   // Filter players by city and sport, return top 10
   const topPlayers = mockTopPlayers
-    .filter(p => {
-      const playerCity = p.user.location?.split(',')[0]?.trim();
-      return p.stats.sportType === sport && playerCity === city;
+    .filter((p) => {
+      const playerCity = p.user.location?.split(',')[0]?.trim()
+      return p.stats.sportType === sport && playerCity === city
     })
     .sort((a, b) => b.stats.totalXp - a.stats.totalXp)
     .slice(0, 10)
@@ -25,7 +23,7 @@ export async function GET(
       totalXp: player.stats.totalXp,
       totalChallenges: player.stats.totalChallenges,
       location: player.user.location,
-    }));
+    }))
 
-  return NextResponse.json(topPlayers);
+  return NextResponse.json(topPlayers)
 }

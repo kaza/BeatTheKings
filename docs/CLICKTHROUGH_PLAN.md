@@ -3,6 +3,7 @@
 **Goal:** Build a fully functional UI prototype with all 10 pages, using mock data aligned with MVP database model.
 
 **Approach:**
+
 - No backend/API
 - No database
 - No tests
@@ -15,30 +16,35 @@
 ## Pages to Implement
 
 ### 1. **Page 1: Email Verification** (`/`)
+
 - Email input field
 - "GO" button
 - Mock: Store email in state, navigate to /verify
 - **Data Model:** User.email
 
 ### 2. **Page 2: Verification Code** (`/verify`)
+
 - 6-digit code input
 - "Verify" button
 - Mock: Accept any 6-digit code
 - **Data Model:** User.verificationCode
 
 ### 3. **Page 3: User Registration** (`/register`)
+
 - Form fields: name, age, gender, location
 - Calculate ageGroup from age
 - "Start" button
 - **Data Model:** User (name, age, ageGroup, gender, location)
 
 ### 4. **Page 4: Profile Photo** (`/photo`)
+
 - File upload or camera capture (mock)
 - Preview with Retake/Confirm
 - Sets hasCompletedOnboarding = true
 - **Data Model:** User.profilePictureUrl, User.hasCompletedOnboarding
 
 ### 5. **Page 5: Main Hub** (`/welcome`)
+
 - Welcome message with user name
 - Avatar button (active)
 - Ranking/Map/Challenge buttons (locked initially)
@@ -46,6 +52,7 @@
 - **Data Model:** User.hasCompletedOnboarding, Avatar existence
 
 ### 6. **Page 6: Avatar Creation** (`/avatar`)
+
 - Hair color/style selection
 - Jersey number input
 - Sport-specific equipment selection
@@ -54,6 +61,7 @@
 - **Data Model:** Avatar, AvatarEquipment (future), User age group display
 
 ### 7. **Page 7: Rankings** (`/ranking`)
+
 - Three tabs: Venue / City / Country
 - Top 10 lists
 - Click player → show avatar popup
@@ -62,6 +70,7 @@
 - **Data Model:** PlayerStats, Venue.currentKing
 
 ### 8. **Page 8: Interactive Map** (`/map`)
+
 - Mock map with venue markers
 - Sport filter dropdown
 - Show active player count
@@ -70,6 +79,7 @@
 - **Data Model:** Venue (all fields), sportType filter
 
 ### 9. **Page 9: Challenges List** (`/challenges`)
+
 - List of challenges at venues
 - Status badges (not started/in progress/completed)
 - Tutorials section
@@ -77,7 +87,9 @@
 - **Data Model:** Challenge, UserChallengeStatus
 
 ### 10. **Page 10: Challenge Flow** (`/challenge/[id]`)
+
 **Sub-pages:**
+
 - `/challenge/[id]` - Instructions
 - `/challenge/[id]/record` - Camera countdown (10s), recording, try again/upload
 - `/challenge/[id]/results` - Results with XP earned
@@ -92,27 +104,27 @@ Create `src/lib/mockData.ts` with:
 ```typescript
 // Aligned with Prisma schema
 const mockUser = {
-  id: "user-1",
-  email: "demo@beatthekingz.com",
-  name: "Alex Jordan",
+  id: 'user-1',
+  email: 'demo@beatthekingz.com',
+  name: 'Alex Jordan',
   age: 24,
-  ageGroup: "22-25",
-  gender: "Male",
-  location: "New York, NY",
-  profilePictureUrl: "/mock-avatar.jpg",
+  ageGroup: '22-25',
+  gender: 'Male',
+  location: 'New York, NY',
+  profilePictureUrl: '/mock-avatar.jpg',
   hasCompletedOnboarding: false,
 }
 
 const mockVenues = [
   {
-    id: "venue-1",
-    name: "Rucker Park",
-    venueType: "court",
-    sportType: "basketball",
-    city: "New York",
-    country: "USA",
+    id: 'venue-1',
+    name: 'Rucker Park',
+    venueType: 'court',
+    sportType: 'basketball',
+    city: 'New York',
+    country: 'USA',
     activePlayerCount: 8,
-    currentKingId: "user-1",
+    currentKingId: 'user-1',
     latitude: 40.8299,
     longitude: -73.9384,
   },
@@ -121,13 +133,13 @@ const mockVenues = [
 
 const mockChallenges = [
   {
-    id: "challenge-1",
-    venueId: "venue-1",
-    name: "Free Throw Challenge",
-    challengeType: "free_throws",
+    id: 'challenge-1',
+    venueId: 'venue-1',
+    name: 'Free Throw Challenge',
+    challengeType: 'free_throws',
     parameters: { requiredShots: 10, timeLimit: 60 },
     xpReward: 100,
-    difficulty: "easy",
+    difficulty: 'easy',
   },
   // ... more challenges
 ]
@@ -136,10 +148,10 @@ const mockPlayerStats = {
   totalXp: 2500,
   currentRank: 3,
   totalChallenges: 12,
-  sportType: "basketball",
+  sportType: 'basketball',
   venueStatsJson: {
-    "venue-1": { rank: 1, xp: 1500 }
-  }
+    'venue-1': { rank: 1, xp: 1500 },
+  },
 }
 ```
 
@@ -148,6 +160,7 @@ const mockPlayerStats = {
 ## State Management
 
 Create `src/context/AppContext.tsx`:
+
 - Store user data
 - Store avatar data
 - Store onboarding progress
@@ -214,23 +227,28 @@ src/
 ## Key Features
 
 ✅ **Progressive Feature Unlock**
+
 - Features locked until avatar created
 - Visual indicators for locked state
 
 ✅ **Mock Navigation**
+
 - All buttons work and navigate correctly
 - Back buttons where needed
 
 ✅ **Animations**
+
 - Pulsing logo
 - Smooth page transitions
 - Unlock animations
 
 ✅ **Responsive Design**
+
 - Mobile-first approach
 - Works on all screen sizes
 
 ✅ **Data Model Alignment**
+
 - All forms collect exact fields from User model
 - Age group calculated correctly
 - Jersey numbers for avatars

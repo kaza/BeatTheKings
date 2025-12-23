@@ -1,44 +1,44 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useApp } from '@/context/AppContext';
-import { Logo } from '@/components/layout/Logo';
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useApp } from '@/context/AppContext'
+import { Logo } from '@/components/layout/Logo'
 
-type StyleTab = 'skin' | 'hair' | 'jersey' | 'short' | 'shoes';
-type HairStyle = 'short' | 'fade' | 'curly' | 'afro' | 'buzzcut' | 'long';
+type StyleTab = 'skin' | 'hair' | 'jersey' | 'short' | 'shoes'
+type HairStyle = 'short' | 'fade' | 'curly' | 'afro' | 'buzzcut' | 'long'
 
 export default function AvatarPage() {
-  const router = useRouter();
-  const { createAvatar, completeOnboarding } = useApp();
+  const router = useRouter()
+  const { createAvatar, completeOnboarding } = useApp()
 
   // Avatar customization states
-  const [ageGroup, setAgeGroup] = useState('14-16');
-  const [sport, setSport] = useState('basketball');
-  const [activeTab, setActiveTab] = useState<StyleTab>('skin');
-  const [skinColor, setSkinColor] = useState('#D2A679');
-  const [hairColor, setHairColor] = useState('#000000');
-  const [hairStyle, setHairStyle] = useState<HairStyle>('short');
-  const [jerseyColor, setJerseyColor] = useState('#E53E3E');
-  const [shortsColor, setShortsColor] = useState('#C53030');
-  const [shoesColor, setShoesColor] = useState('#2D3748');
-  const [jerseyNumber, setJerseyNumber] = useState('10');
+  const [ageGroup, setAgeGroup] = useState('14-16')
+  const [sport, setSport] = useState('basketball')
+  const [activeTab, setActiveTab] = useState<StyleTab>('skin')
+  const [skinColor, setSkinColor] = useState('#D2A679')
+  const [hairColor, setHairColor] = useState('#000000')
+  const [hairStyle, setHairStyle] = useState<HairStyle>('short')
+  const [jerseyColor, setJerseyColor] = useState('#E53E3E')
+  const [shortsColor, setShortsColor] = useState('#C53030')
+  const [shoesColor, setShoesColor] = useState('#2D3748')
+  const [jerseyNumber, setJerseyNumber] = useState('10')
 
-  const ageGroups = ['12-14', '14-16', '16-18', '18+'];
+  const ageGroups = ['12-14', '14-16', '16-18', '18+']
 
   const skinColors = [
     { name: 'Light', value: '#FFE0BD' },
     { name: 'Medium', value: '#D2A679' },
     { name: 'Tan', value: '#A67C52' },
     { name: 'Dark', value: '#6F4E37' },
-  ];
+  ]
 
   const hairColors = [
     { name: 'Black', value: '#000000' },
     { name: 'Brown', value: '#8B4513' },
     { name: 'Blonde', value: '#FFD700' },
     { name: 'Red', value: '#DC143C' },
-  ];
+  ]
 
   const hairStyles = [
     { name: 'Short', value: 'short' as HairStyle },
@@ -47,7 +47,7 @@ export default function AvatarPage() {
     { name: 'Afro', value: 'afro' as HairStyle },
     { name: 'Buzz Cut', value: 'buzzcut' as HairStyle },
     { name: 'Long', value: 'long' as HairStyle },
-  ];
+  ]
 
   const jerseyColors = [
     { name: 'Red', value: '#E53E3E' },
@@ -57,93 +57,103 @@ export default function AvatarPage() {
     { name: 'Purple', value: '#805AD5' },
     { name: 'White', value: '#FFFFFF' },
     { name: 'Black', value: '#1A202C' },
-  ];
+  ]
 
   const shortsColors = [
     { name: 'Red', value: '#C53030' },
     { name: 'Blue', value: '#2C5282' },
     { name: 'Black', value: '#1A202C' },
     { name: 'White', value: '#FFFFFF' },
-  ];
+  ]
 
   const shoesColors = [
     { name: 'Black', value: '#2D3748' },
     { name: 'White', value: '#F7FAFC' },
     { name: 'Red', value: '#C53030' },
     { name: 'Blue', value: '#2C5282' },
-  ];
+  ]
 
   // Function to render different hair styles
   const renderHair = () => {
-    const darkerHairColor = adjustColor(hairColor, -30);
+    const darkerHairColor = adjustColor(hairColor, -30)
 
     switch (hairStyle) {
       case 'short':
         return (
           <g>
-            <ellipse cx="140" cy="30" rx="42" ry="25" fill={hairColor}/>
-            <ellipse cx="140" cy="32" rx="40" ry="23" fill={darkerHairColor}/>
+            <ellipse cx="140" cy="30" rx="42" ry="25" fill={hairColor} />
+            <ellipse cx="140" cy="32" rx="40" ry="23" fill={darkerHairColor} />
           </g>
-        );
+        )
       case 'fade':
         return (
           <g>
-            <ellipse cx="140" cy="32" rx="40" ry="22" fill={hairColor}/>
-            <ellipse cx="140" cy="34" rx="38" ry="20" fill={darkerHairColor}/>
-            <ellipse cx="120" cy="45" rx="15" ry="18" fill={hairColor} opacity="0.6"/>
-            <ellipse cx="160" cy="45" rx="15" ry="18" fill={hairColor} opacity="0.6"/>
+            <ellipse cx="140" cy="32" rx="40" ry="22" fill={hairColor} />
+            <ellipse cx="140" cy="34" rx="38" ry="20" fill={darkerHairColor} />
+            <ellipse cx="120" cy="45" rx="15" ry="18" fill={hairColor} opacity="0.6" />
+            <ellipse cx="160" cy="45" rx="15" ry="18" fill={hairColor} opacity="0.6" />
           </g>
-        );
+        )
       case 'curly':
         return (
           <g>
             {/* Multiple circles to create curly effect */}
-            <circle cx="115" cy="25" r="12" fill={hairColor}/>
-            <circle cx="130" cy="20" r="13" fill={darkerHairColor}/>
-            <circle cx="145" cy="20" r="13" fill={hairColor}/>
-            <circle cx="160" cy="23" r="12" fill={darkerHairColor}/>
-            <circle cx="125" cy="35" r="10" fill={hairColor}/>
-            <circle cx="150" cy="35" r="10" fill={hairColor}/>
-            <ellipse cx="140" cy="30" rx="35" ry="15" fill={darkerHairColor}/>
+            <circle cx="115" cy="25" r="12" fill={hairColor} />
+            <circle cx="130" cy="20" r="13" fill={darkerHairColor} />
+            <circle cx="145" cy="20" r="13" fill={hairColor} />
+            <circle cx="160" cy="23" r="12" fill={darkerHairColor} />
+            <circle cx="125" cy="35" r="10" fill={hairColor} />
+            <circle cx="150" cy="35" r="10" fill={hairColor} />
+            <ellipse cx="140" cy="30" rx="35" ry="15" fill={darkerHairColor} />
           </g>
-        );
+        )
       case 'afro':
         return (
           <g>
-            <circle cx="140" cy="35" r="50" fill={hairColor}/>
-            <circle cx="120" cy="30" r="25" fill={darkerHairColor} opacity="0.5"/>
-            <circle cx="160" cy="30" r="25" fill={darkerHairColor} opacity="0.5"/>
-            <circle cx="140" cy="15" r="30" fill={darkerHairColor} opacity="0.5"/>
+            <circle cx="140" cy="35" r="50" fill={hairColor} />
+            <circle cx="120" cy="30" r="25" fill={darkerHairColor} opacity="0.5" />
+            <circle cx="160" cy="30" r="25" fill={darkerHairColor} opacity="0.5" />
+            <circle cx="140" cy="15" r="30" fill={darkerHairColor} opacity="0.5" />
           </g>
-        );
+        )
       case 'buzzcut':
         return (
           <g>
-            <ellipse cx="140" cy="35" rx="38" ry="18" fill={hairColor} opacity="0.8"/>
+            <ellipse cx="140" cy="35" rx="38" ry="18" fill={hairColor} opacity="0.8" />
           </g>
-        );
+        )
       case 'long':
         return (
           <g>
-            <ellipse cx="140" cy="30" rx="42" ry="25" fill={hairColor}/>
-            <path d="M 100 40 Q 95 60 100 80" fill={hairColor} stroke={darkerHairColor} strokeWidth="2"/>
-            <path d="M 180 40 Q 185 60 180 80" fill={hairColor} stroke={darkerHairColor} strokeWidth="2"/>
-            <ellipse cx="140" cy="32" rx="40" ry="23" fill={darkerHairColor}/>
+            <ellipse cx="140" cy="30" rx="42" ry="25" fill={hairColor} />
+            <path
+              d="M 100 40 Q 95 60 100 80"
+              fill={hairColor}
+              stroke={darkerHairColor}
+              strokeWidth="2"
+            />
+            <path
+              d="M 180 40 Q 185 60 180 80"
+              fill={hairColor}
+              stroke={darkerHairColor}
+              strokeWidth="2"
+            />
+            <ellipse cx="140" cy="32" rx="40" ry="23" fill={darkerHairColor} />
           </g>
-        );
+        )
       default:
-        return <ellipse cx="140" cy="30" rx="42" ry="25" fill={hairColor}/>;
+        return <ellipse cx="140" cy="30" rx="42" ry="25" fill={hairColor} />
     }
-  };
+  }
 
   // Helper function to adjust color brightness
   const adjustColor = (color: string, amount: number) => {
-    const num = parseInt(color.replace('#', ''), 16);
-    const r = Math.max(0, Math.min(255, (num >> 16) + amount));
-    const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00FF) + amount));
-    const b = Math.max(0, Math.min(255, (num & 0x0000FF) + amount));
-    return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
-  };
+    const num = parseInt(color.replace('#', ''), 16)
+    const r = Math.max(0, Math.min(255, (num >> 16) + amount))
+    const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00ff) + amount))
+    const b = Math.max(0, Math.min(255, (num & 0x0000ff) + amount))
+    return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`
+  }
 
   const handleSave = () => {
     const avatarConfig = {
@@ -156,26 +166,26 @@ export default function AvatarPage() {
       shortsColor,
       shoesColor,
       jerseyNumber,
-    };
+    }
 
-    console.log('Saving avatar...');
-    createAvatar(hairColor, hairStyle, parseInt(jerseyNumber), avatarConfig);
-    console.log('Completing onboarding...');
-    completeOnboarding(); // Mark onboarding as complete to unlock features
-    localStorage.setItem('avatar_created', 'true');
+    console.log('Saving avatar...')
+    createAvatar(hairColor, hairStyle, parseInt(jerseyNumber), avatarConfig)
+    console.log('Completing onboarding...')
+    completeOnboarding() // Mark onboarding as complete to unlock features
+    localStorage.setItem('avatar_created', 'true')
 
-    console.log('LocalStorage after save:');
-    console.log('avatar_data:', localStorage.getItem('avatar_data'));
-    console.log('user_data:', localStorage.getItem('user_data'));
+    console.log('LocalStorage after save:')
+    console.log('avatar_data:', localStorage.getItem('avatar_data'))
+    console.log('user_data:', localStorage.getItem('user_data'))
 
-    router.push('/welcome');
-  };
+    router.push('/welcome')
+  }
 
   // Generate gradient colors for shading
-  const skinDark = adjustColor(skinColor, -30);
-  const jerseyDark = adjustColor(jerseyColor, -40);
-  const shortsDark = adjustColor(shortsColor, -40);
-  const shoesDark = adjustColor(shoesColor, -50);
+  const skinDark = adjustColor(skinColor, -30)
+  const jerseyDark = adjustColor(jerseyColor, -40)
+  const shortsDark = adjustColor(shortsColor, -40)
+  const shoesDark = adjustColor(shoesColor, -50)
 
   return (
     <main className="min-h-screen bg-white">
@@ -195,7 +205,6 @@ export default function AvatarPage() {
       </div>
 
       <div className="max-w-6xl mx-auto px-6 pb-8">
-
         <div className="grid md:grid-cols-2 gap-8">
           {/* Avatar Preview - Left Side */}
           <div className="flex items-center justify-center">
@@ -205,20 +214,20 @@ export default function AvatarPage() {
                 <defs>
                   {/* Gradients for 3D effect */}
                   <linearGradient id="skinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor={skinColor}/>
-                    <stop offset="100%" stopColor={skinDark}/>
+                    <stop offset="0%" stopColor={skinColor} />
+                    <stop offset="100%" stopColor={skinDark} />
                   </linearGradient>
                   <linearGradient id="jerseyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor={jerseyColor}/>
-                    <stop offset="100%" stopColor={jerseyDark}/>
+                    <stop offset="0%" stopColor={jerseyColor} />
+                    <stop offset="100%" stopColor={jerseyDark} />
                   </linearGradient>
                   <linearGradient id="shortsGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor={shortsColor}/>
-                    <stop offset="100%" stopColor={shortsDark}/>
+                    <stop offset="0%" stopColor={shortsColor} />
+                    <stop offset="100%" stopColor={shortsDark} />
                   </linearGradient>
                   <linearGradient id="shoesGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor={shoesColor}/>
-                    <stop offset="100%" stopColor={shoesDark}/>
+                    <stop offset="0%" stopColor={shoesColor} />
+                    <stop offset="100%" stopColor={shoesDark} />
                   </linearGradient>
                 </defs>
 
@@ -226,87 +235,220 @@ export default function AvatarPage() {
                 {renderHair()}
 
                 {/* Head with gradient */}
-                <circle cx="150" cy="60" r="38" fill="url(#skinGradient)" stroke="#000" strokeWidth="1.5"/>
+                <circle
+                  cx="150"
+                  cy="60"
+                  r="38"
+                  fill="url(#skinGradient)"
+                  stroke="#000"
+                  strokeWidth="1.5"
+                />
 
                 {/* Ears */}
-                <ellipse cx="112" cy="65" rx="8" ry="12" fill={skinColor} stroke="#000" strokeWidth="1"/>
-                <ellipse cx="188" cy="65" rx="8" ry="12" fill={skinColor} stroke="#000" strokeWidth="1"/>
+                <ellipse
+                  cx="112"
+                  cy="65"
+                  rx="8"
+                  ry="12"
+                  fill={skinColor}
+                  stroke="#000"
+                  strokeWidth="1"
+                />
+                <ellipse
+                  cx="188"
+                  cy="65"
+                  rx="8"
+                  ry="12"
+                  fill={skinColor}
+                  stroke="#000"
+                  strokeWidth="1"
+                />
 
                 {/* Eyes */}
-                <ellipse cx="135" cy="58" rx="5" ry="6" fill="#FFF" stroke="#000" strokeWidth="1"/>
-                <ellipse cx="165" cy="58" rx="5" ry="6" fill="#FFF" stroke="#000" strokeWidth="1"/>
-                <circle cx="135" cy="59" r="3" fill="#000"/>
-                <circle cx="165" cy="59" r="3" fill="#000"/>
+                <ellipse cx="135" cy="58" rx="5" ry="6" fill="#FFF" stroke="#000" strokeWidth="1" />
+                <ellipse cx="165" cy="58" rx="5" ry="6" fill="#FFF" stroke="#000" strokeWidth="1" />
+                <circle cx="135" cy="59" r="3" fill="#000" />
+                <circle cx="165" cy="59" r="3" fill="#000" />
 
                 {/* Eyebrows */}
-                <path d="M 128 50 Q 135 48 142 50" stroke="#000" strokeWidth="2" fill="none" strokeLinecap="round"/>
-                <path d="M 158 50 Q 165 48 172 50" stroke="#000" strokeWidth="2" fill="none" strokeLinecap="round"/>
+                <path
+                  d="M 128 50 Q 135 48 142 50"
+                  stroke="#000"
+                  strokeWidth="2"
+                  fill="none"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M 158 50 Q 165 48 172 50"
+                  stroke="#000"
+                  strokeWidth="2"
+                  fill="none"
+                  strokeLinecap="round"
+                />
 
                 {/* Nose */}
-                <path d="M 150 65 L 148 72 L 152 72" stroke="#000" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+                <path
+                  d="M 150 65 L 148 72 L 152 72"
+                  stroke="#000"
+                  strokeWidth="1.5"
+                  fill="none"
+                  strokeLinecap="round"
+                />
 
                 {/* Smile */}
-                <path d="M 135 75 Q 150 82 165 75" stroke="#000" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+                <path
+                  d="M 135 75 Q 150 82 165 75"
+                  stroke="#000"
+                  strokeWidth="2.5"
+                  fill="none"
+                  strokeLinecap="round"
+                />
 
                 {/* Neck */}
-                <rect x="135" y="95" width="30" height="15" fill="url(#skinGradient)" stroke="#000" strokeWidth="1"/>
+                <rect
+                  x="135"
+                  y="95"
+                  width="30"
+                  height="15"
+                  fill="url(#skinGradient)"
+                  stroke="#000"
+                  strokeWidth="1"
+                />
 
                 {/* Jersey/Body */}
-                <path d="M 100 110 L 100 190 L 200 190 L 200 110 L 180 110 L 180 100 L 165 100 L 165 110 L 135 110 L 135 100 L 120 100 L 120 110 Z"
-                      fill="url(#jerseyGradient)" stroke="#000" strokeWidth="2"/>
+                <path
+                  d="M 100 110 L 100 190 L 200 190 L 200 110 L 180 110 L 180 100 L 165 100 L 165 110 L 135 110 L 135 100 L 120 100 L 120 110 Z"
+                  fill="url(#jerseyGradient)"
+                  stroke="#000"
+                  strokeWidth="2"
+                />
 
                 {/* Jersey collar */}
-                <path d="M 135 110 L 135 100 L 165 100 L 165 110" fill={jerseyDark} stroke="#000" strokeWidth="1.5"/>
+                <path
+                  d="M 135 110 L 135 100 L 165 100 L 165 110"
+                  fill={jerseyDark}
+                  stroke="#000"
+                  strokeWidth="1.5"
+                />
 
                 {/* Jersey Number */}
-                <text x="150" y="155" fontSize="40" fontWeight="bold" fill="#FFF" textAnchor="middle"
-                      stroke="#000" strokeWidth="1" fontFamily="Arial">
+                <text
+                  x="150"
+                  y="155"
+                  fontSize="40"
+                  fontWeight="bold"
+                  fill="#FFF"
+                  textAnchor="middle"
+                  stroke="#000"
+                  strokeWidth="1"
+                  fontFamily="Arial"
+                >
                   {jerseyNumber}
                 </text>
 
                 {/* Arms */}
-                <ellipse cx="85" cy="140" rx="18" ry="50" fill="url(#skinGradient)" stroke="#000" strokeWidth="1.5"/>
-                <ellipse cx="215" cy="140" rx="18" ry="50" fill="url(#skinGradient)" stroke="#000" strokeWidth="1.5"/>
+                <ellipse
+                  cx="85"
+                  cy="140"
+                  rx="18"
+                  ry="50"
+                  fill="url(#skinGradient)"
+                  stroke="#000"
+                  strokeWidth="1.5"
+                />
+                <ellipse
+                  cx="215"
+                  cy="140"
+                  rx="18"
+                  ry="50"
+                  fill="url(#skinGradient)"
+                  stroke="#000"
+                  strokeWidth="1.5"
+                />
 
                 {/* Hands */}
-                <circle cx="85" cy="185" r="12" fill={skinColor} stroke="#000" strokeWidth="1.5"/>
-                <circle cx="215" cy="185" r="12" fill={skinColor} stroke="#000" strokeWidth="1.5"/>
+                <circle cx="85" cy="185" r="12" fill={skinColor} stroke="#000" strokeWidth="1.5" />
+                <circle cx="215" cy="185" r="12" fill={skinColor} stroke="#000" strokeWidth="1.5" />
 
                 {/* Shorts */}
-                <path d="M 100 190 L 95 245 L 130 245 L 135 190 Z" fill="url(#shortsGradient)" stroke="#000" strokeWidth="2"/>
-                <path d="M 165 190 L 170 245 L 205 245 L 200 190 Z" fill="url(#shortsGradient)" stroke="#000" strokeWidth="2"/>
+                <path
+                  d="M 100 190 L 95 245 L 130 245 L 135 190 Z"
+                  fill="url(#shortsGradient)"
+                  stroke="#000"
+                  strokeWidth="2"
+                />
+                <path
+                  d="M 165 190 L 170 245 L 205 245 L 200 190 Z"
+                  fill="url(#shortsGradient)"
+                  stroke="#000"
+                  strokeWidth="2"
+                />
 
                 {/* Shorts stripes */}
-                <line x1="100" y1="235" x2="130" y2="235" stroke="#FFF" strokeWidth="3"/>
-                <line x1="170" y1="235" x2="205" y2="235" stroke="#FFF" strokeWidth="3"/>
+                <line x1="100" y1="235" x2="130" y2="235" stroke="#FFF" strokeWidth="3" />
+                <line x1="170" y1="235" x2="205" y2="235" stroke="#FFF" strokeWidth="3" />
 
                 {/* Legs */}
-                <rect x="100" y="245" width="28" height="90" fill="url(#skinGradient)" stroke="#000" strokeWidth="1.5" rx="8"/>
-                <rect x="172" y="245" width="28" height="90" fill="url(#skinGradient)" stroke="#000" strokeWidth="1.5" rx="8"/>
+                <rect
+                  x="100"
+                  y="245"
+                  width="28"
+                  height="90"
+                  fill="url(#skinGradient)"
+                  stroke="#000"
+                  strokeWidth="1.5"
+                  rx="8"
+                />
+                <rect
+                  x="172"
+                  y="245"
+                  width="28"
+                  height="90"
+                  fill="url(#skinGradient)"
+                  stroke="#000"
+                  strokeWidth="1.5"
+                  rx="8"
+                />
 
                 {/* Shoes */}
-                <ellipse cx="114" cy="355" rx="24" ry="30" fill="url(#shoesGradient)" stroke="#000" strokeWidth="2"/>
-                <ellipse cx="186" cy="355" rx="24" ry="30" fill="url(#shoesGradient)" stroke="#000" strokeWidth="2"/>
+                <ellipse
+                  cx="114"
+                  cy="355"
+                  rx="24"
+                  ry="30"
+                  fill="url(#shoesGradient)"
+                  stroke="#000"
+                  strokeWidth="2"
+                />
+                <ellipse
+                  cx="186"
+                  cy="355"
+                  rx="24"
+                  ry="30"
+                  fill="url(#shoesGradient)"
+                  stroke="#000"
+                  strokeWidth="2"
+                />
 
                 {/* Shoe laces */}
-                <ellipse cx="114" cy="345" rx="8" ry="5" fill="#FFF" opacity="0.8"/>
-                <ellipse cx="186" cy="345" rx="8" ry="5" fill="#FFF" opacity="0.8"/>
+                <ellipse cx="114" cy="345" rx="8" ry="5" fill="#FFF" opacity="0.8" />
+                <ellipse cx="186" cy="345" rx="8" ry="5" fill="#FFF" opacity="0.8" />
 
                 {/* Shoe soles */}
-                <ellipse cx="114" cy="370" rx="26" ry="8" fill={shoesDark}/>
-                <ellipse cx="186" cy="370" rx="26" ry="8" fill={shoesDark}/>
+                <ellipse cx="114" cy="370" rx="26" ry="8" fill={shoesDark} />
+                <ellipse cx="186" cy="370" rx="26" ry="8" fill={shoesDark} />
 
                 {/* Basketball */}
-                <circle cx="50" cy="150" r="28" fill="#FF8C00" stroke="#000" strokeWidth="2"/>
-                <circle cx="50" cy="150" r="28" fill="url(#ballGradient)"/>
-                <path d="M 25 150 Q 50 140 75 150" stroke="#000" strokeWidth="2.5" fill="none"/>
-                <path d="M 25 150 Q 50 160 75 150" stroke="#000" strokeWidth="2.5" fill="none"/>
-                <line x1="50" y1="122" x2="50" y2="178" stroke="#000" strokeWidth="2.5"/>
+                <circle cx="50" cy="150" r="28" fill="#FF8C00" stroke="#000" strokeWidth="2" />
+                <circle cx="50" cy="150" r="28" fill="url(#ballGradient)" />
+                <path d="M 25 150 Q 50 140 75 150" stroke="#000" strokeWidth="2.5" fill="none" />
+                <path d="M 25 150 Q 50 160 75 150" stroke="#000" strokeWidth="2.5" fill="none" />
+                <line x1="50" y1="122" x2="50" y2="178" stroke="#000" strokeWidth="2.5" />
 
                 <defs>
                   <radialGradient id="ballGradient">
-                    <stop offset="0%" stopColor="#FFA500"/>
-                    <stop offset="100%" stopColor="#FF8C00"/>
+                    <stop offset="0%" stopColor="#FFA500" />
+                    <stop offset="100%" stopColor="#FF8C00" />
                   </radialGradient>
                 </defs>
               </svg>
@@ -315,7 +457,6 @@ export default function AvatarPage() {
 
           {/* Customization Options - Right Side */}
           <div className="space-y-6">
-
             {/* Age Group Selection */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">Age Group</label>
@@ -443,7 +584,10 @@ export default function AvatarPage() {
                         onClick={() => setJerseyColor(color.value)}
                         style={{
                           backgroundColor: color.value,
-                          border: color.value === '#FFFFFF' ? '2px solid #E5E7EB' : '2px solid transparent'
+                          border:
+                            color.value === '#FFFFFF'
+                              ? '2px solid #E5E7EB'
+                              : '2px solid transparent',
                         }}
                         className={`h-14 rounded-lg transition-all shadow-sm ${
                           jerseyColor === color.value
@@ -465,7 +609,10 @@ export default function AvatarPage() {
                         onClick={() => setShortsColor(color.value)}
                         style={{
                           backgroundColor: color.value,
-                          border: color.value === '#FFFFFF' ? '2px solid #E5E7EB' : '2px solid transparent'
+                          border:
+                            color.value === '#FFFFFF'
+                              ? '2px solid #E5E7EB'
+                              : '2px solid transparent',
                         }}
                         className={`h-14 rounded-lg transition-all shadow-sm ${
                           shortsColor === color.value
@@ -487,7 +634,10 @@ export default function AvatarPage() {
                         onClick={() => setShoesColor(color.value)}
                         style={{
                           backgroundColor: color.value,
-                          border: color.value === '#F7FAFC' ? '2px solid #E5E7EB' : '2px solid transparent'
+                          border:
+                            color.value === '#F7FAFC'
+                              ? '2px solid #E5E7EB'
+                              : '2px solid transparent',
                         }}
                         className={`h-14 rounded-lg transition-all shadow-sm ${
                           shoesColor === color.value
@@ -504,7 +654,9 @@ export default function AvatarPage() {
 
             {/* Jersey Number */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Jersey Number</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Jersey Number
+              </label>
               <input
                 type="number"
                 min="0"
@@ -518,7 +670,8 @@ export default function AvatarPage() {
             {/* Note about future features */}
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
               <p className="text-sm text-gray-700">
-                <span className="font-semibold">Note:</span> Shorts and Shoes customization will be available in the full version. Currently showing default options.
+                <span className="font-semibold">Note:</span> Shorts and Shoes customization will be
+                available in the full version. Currently showing default options.
               </p>
             </div>
 
@@ -533,5 +686,5 @@ export default function AvatarPage() {
         </div>
       </div>
     </main>
-  );
+  )
 }

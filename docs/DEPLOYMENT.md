@@ -101,35 +101,35 @@ name: Deploy to Azure
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Login to Azure Container Registry
-      uses: docker/login-action@v2
-      with:
-        registry: beatthekingzacr.azurecr.io
-        username: ${{ secrets.ACR_USERNAME }}
-        password: ${{ secrets.ACR_PASSWORD }}
+      - name: Login to Azure Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: beatthekingzacr.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
 
-    - name: Build and push Docker image
-      run: |
-        docker build -t beatthekingzacr.azurecr.io/beatthekingz:${{ github.sha }} .
-        docker build -t beatthekingzacr.azurecr.io/beatthekingz:latest .
-        docker push beatthekingzacr.azurecr.io/beatthekingz:${{ github.sha }}
-        docker push beatthekingzacr.azurecr.io/beatthekingz:latest
+      - name: Build and push Docker image
+        run: |
+          docker build -t beatthekingzacr.azurecr.io/beatthekingz:${{ github.sha }} .
+          docker build -t beatthekingzacr.azurecr.io/beatthekingz:latest .
+          docker push beatthekingzacr.azurecr.io/beatthekingz:${{ github.sha }}
+          docker push beatthekingzacr.azurecr.io/beatthekingz:latest
 
-    - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: beatthekingz
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        images: beatthekingzacr.azurecr.io/beatthekingz:${{ github.sha }}
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: beatthekingz
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          images: beatthekingzacr.azurecr.io/beatthekingz:${{ github.sha }}
 ```
 
 ## Quick Start Script

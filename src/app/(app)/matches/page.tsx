@@ -1,52 +1,50 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useApp } from '@/context/AppContext';
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { useApp } from '@/context/AppContext'
 
 interface Match {
-  id: string;
-  opponentName: string;
-  opponentId: string;
-  venue: string;
-  date: Date;
-  status: 'pending' | 'verified' | 'disputed';
+  id: string
+  opponentName: string
+  opponentId: string
+  venue: string
+  date: Date
+  status: 'pending' | 'verified' | 'disputed'
   result?: {
-    winner: 'you' | 'opponent';
-    yourScore: number;
-    opponentScore: number;
-    xpEarned: number;
-  };
-  canDispute: boolean;
+    winner: 'you' | 'opponent'
+    yourScore: number
+    opponentScore: number
+    xpEarned: number
+  }
+  canDispute: boolean
 }
 
 export default function MatchesPage() {
-  const router = useRouter();
-  const { user } = useApp();
-  const [matches, setMatches] = useState<Match[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [filter, setFilter] = useState<'all' | 'pending' | 'verified' | 'disputed'>('all');
+  const router = useRouter()
+  const { user } = useApp()
+  const [matches, setMatches] = useState<Match[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [filter, setFilter] = useState<'all' | 'pending' | 'verified' | 'disputed'>('all')
 
   useEffect(() => {
     // Fetch matches
     fetch('/api/matches')
-      .then(res => res.json())
-      .then(data => setMatches(data))
-      .catch(err => console.error('Failed to fetch matches:', err))
-      .finally(() => setIsLoading(false));
-  }, []);
+      .then((res) => res.json())
+      .then((data) => setMatches(data))
+      .catch((err) => console.error('Failed to fetch matches:', err))
+      .finally(() => setIsLoading(false))
+  }, [])
 
   const handleDispute = (matchId: string) => {
-    router.push(`/matches/${matchId}/dispute`);
-  };
+    router.push(`/matches/${matchId}/dispute`)
+  }
 
   const handleViewDetails = (matchId: string) => {
-    router.push(`/matches/${matchId}`);
-  };
+    router.push(`/matches/${matchId}`)
+  }
 
-  const filteredMatches = filter === 'all'
-    ? matches
-    : matches.filter(m => m.status === filter);
+  const filteredMatches = filter === 'all' ? matches : matches.filter((m) => m.status === filter)
 
   const getStatusBadge = (status: Match['status']) => {
     if (status === 'pending') {
@@ -54,21 +52,21 @@ export default function MatchesPage() {
         <span className="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs font-semibold rounded">
           ⏳ Verifying
         </span>
-      );
+      )
     }
     if (status === 'disputed') {
       return (
         <span className="px-2 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded">
           ⚠️ Disputed
         </span>
-      );
+      )
     }
     return (
       <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded">
         ✓ Verified
       </span>
-    );
-  };
+    )
+  }
 
   return (
     <main className="min-h-screen bg-white">
@@ -104,9 +102,7 @@ export default function MatchesPage() {
               key={tab.id}
               onClick={() => setFilter(tab.id as any)}
               className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-all ${
-                filter === tab.id
-                  ? 'bg-blue-600 text-white shadow-sm'
-                  : 'text-gray-600'
+                filter === tab.id ? 'bg-blue-600 text-white shadow-sm' : 'text-gray-600'
               }`}
             >
               {tab.label}
@@ -143,12 +139,13 @@ export default function MatchesPage() {
                       {getStatusBadge(match.status)}
                     </div>
                     <p className="text-xs text-gray-500">
-                      📍 {match.venue} • {new Date(match.date).toLocaleDateString('en-US', {
+                      📍 {match.venue} •{' '}
+                      {new Date(match.date).toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric',
                         year: 'numeric',
                         hour: '2-digit',
-                        minute: '2-digit'
+                        minute: '2-digit',
                       })}
                     </p>
                   </div>
@@ -161,15 +158,19 @@ export default function MatchesPage() {
                       <div>
                         <p className="text-xs text-gray-600 mb-1">Result</p>
                         <p className="text-sm font-bold text-gray-900">
-                          You {match.result.yourScore} - {match.result.opponentScore} {match.opponentName}
+                          You {match.result.yourScore} - {match.result.opponentScore}{' '}
+                          {match.opponentName}
                         </p>
                       </div>
                       <div className="text-right">
                         <p className="text-xs text-gray-600 mb-1">XP</p>
-                        <p className={`text-lg font-bold ${
-                          match.result.winner === 'you' ? 'text-green-600' : 'text-gray-600'
-                        }`}>
-                          {match.result.winner === 'you' ? '+' : ''}{match.result.xpEarned}
+                        <p
+                          className={`text-lg font-bold ${
+                            match.result.winner === 'you' ? 'text-green-600' : 'text-gray-600'
+                          }`}
+                        >
+                          {match.result.winner === 'you' ? '+' : ''}
+                          {match.result.xpEarned}
                         </p>
                       </div>
                     </div>
@@ -217,5 +218,5 @@ export default function MatchesPage() {
         </div>
       </div>
     </main>
-  );
+  )
 }

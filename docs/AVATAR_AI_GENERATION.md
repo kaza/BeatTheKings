@@ -11,6 +11,7 @@
 Instead of building a complex SVG layer system or using limited avatar libraries, we use AI image generation to create custom sports avatars based on user preferences.
 
 **Flow:**
+
 1. User answers preference questions during onboarding
 2. System builds a structured prompt from preferences
 3. Gemini 2.0 generates a custom avatar image
@@ -20,12 +21,12 @@ Instead of building a complex SVG layer system or using limited avatar libraries
 
 ## Why AI Generation?
 
-| Approach | Pros | Cons |
-|----------|------|------|
-| **SVG Libraries (Avataaars)** | Fast, consistent | No sports outfits, fixed style |
-| **Custom SVG Layers** | Full control | Need artist, complex dev |
-| **3D SDKs (Ready Player Me)** | Rich customization | Overkill, wrong style, costs |
-| **AI Generation (Gemini)** | Flexible, unique, sports-ready | API costs, consistency challenges |
+| Approach                      | Pros                           | Cons                              |
+| ----------------------------- | ------------------------------ | --------------------------------- |
+| **SVG Libraries (Avataaars)** | Fast, consistent               | No sports outfits, fixed style    |
+| **Custom SVG Layers**         | Full control                   | Need artist, complex dev          |
+| **3D SDKs (Ready Player Me)** | Rich customization             | Overkill, wrong style, costs      |
+| **AI Generation (Gemini)**    | Flexible, unique, sports-ready | API costs, consistency challenges |
 
 **Decision:** AI generation gives us sports-specific avatars without needing custom art assets.
 
@@ -35,47 +36,47 @@ Instead of building a complex SVG layer system or using limited avatar libraries
 
 ### Physical Appearance
 
-| Field | Type | Options |
-|-------|------|---------|
+| Field      | Type | Options                                                    |
+| ---------- | ---- | ---------------------------------------------------------- |
 | `skinTone` | enum | `light`, `fair`, `medium`, `olive`, `tan`, `brown`, `dark` |
-| `gender` | enum | `male`, `female` |
-| `bodyType` | enum | `slim`, `athletic`, `average`, `muscular` |
+| `gender`   | enum | `male`, `female`                                           |
+| `bodyType` | enum | `slim`, `athletic`, `average`, `muscular`                  |
 
 ### Hair
 
-| Field | Type | Options |
-|-------|------|---------|
+| Field       | Type | Options                                                                          |
+| ----------- | ---- | -------------------------------------------------------------------------------- |
 | `hairStyle` | enum | `short`, `medium`, `long`, `bald`, `buzz`, `afro`, `braids`, `ponytail`, `curly` |
-| `hairColor` | enum | `black`, `brown`, `blonde`, `red`, `gray`, `white` |
+| `hairColor` | enum | `black`, `brown`, `blonde`, `red`, `gray`, `white`                               |
 
 ### Facial Hair (Optional)
 
-| Field | Type | Options |
-|-------|------|---------|
+| Field        | Type | Options                                               |
+| ------------ | ---- | ----------------------------------------------------- |
 | `facialHair` | enum | `none`, `stubble`, `goatee`, `full_beard`, `mustache` |
 
 ### Sport & Outfit
 
-| Field | Type | Options/Notes |
-|-------|------|---------------|
-| `sport` | enum | `basketball`, `soccer`, `running`, `cycling` |
-| `jerseyColor` | string | Hex color or named color |
-| `shortsColor` | string | Hex color or named color |
-| `shoeStyle` | enum | `high_tops`, `low_tops`, `cleats`, `running_shoes` |
-| `shoeColor` | string | Hex color or named color |
+| Field         | Type   | Options/Notes                                      |
+| ------------- | ------ | -------------------------------------------------- |
+| `sport`       | enum   | `basketball`, `soccer`, `running`, `cycling`       |
+| `jerseyColor` | string | Hex color or named color                           |
+| `shortsColor` | string | Hex color or named color                           |
+| `shoeStyle`   | enum   | `high_tops`, `low_tops`, `cleats`, `running_shoes` |
+| `shoeColor`   | string | Hex color or named color                           |
 
 ### Accessories
 
-| Field | Type | Options |
-|-------|------|---------|
+| Field         | Type  | Options                                                 |
+| ------------- | ----- | ------------------------------------------------------- |
 | `accessories` | array | `headband`, `wristband`, `glasses`, `cap`, `arm_sleeve` |
 
 ### System-Added (not user-selected)
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `isKing` | boolean | Adds golden crown to avatar |
-| `rankBadge` | number | Shows rank number (#1, #2, etc.) |
+| Field       | Type    | Description                      |
+| ----------- | ------- | -------------------------------- |
+| `isKing`    | boolean | Adds golden crown to avatar      |
+| `rankBadge` | number  | Shows rank number (#1, #2, etc.) |
 
 ---
 
@@ -89,7 +90,16 @@ interface AvatarPreferences {
   bodyType: 'slim' | 'athletic' | 'average' | 'muscular'
 
   // Hair
-  hairStyle: 'short' | 'medium' | 'long' | 'bald' | 'buzz' | 'afro' | 'braids' | 'ponytail' | 'curly'
+  hairStyle:
+    | 'short'
+    | 'medium'
+    | 'long'
+    | 'bald'
+    | 'buzz'
+    | 'afro'
+    | 'braids'
+    | 'ponytail'
+    | 'curly'
   hairColor: 'black' | 'brown' | 'blonde' | 'red' | 'gray' | 'white'
 
   // Facial Hair (optional)
@@ -138,9 +148,7 @@ function buildAvatarPrompt(prefs: AvatarPreferences): string {
     ${prefs.gender} athlete with ${prefs.skinTone} skin tone,
     ${prefs.bodyType} build,
     ${prefs.hairStyle} ${prefs.hairColor} hair
-    ${prefs.facialHair && prefs.facialHair !== 'none'
-      ? `, ${prefs.facialHair} facial hair`
-      : ''}
+    ${prefs.facialHair && prefs.facialHair !== 'none' ? `, ${prefs.facialHair} facial hair` : ''}
   `
 
   const outfits: Record<string, string> = {
@@ -158,12 +166,10 @@ function buildAvatarPrompt(prefs: AvatarPreferences): string {
               dynamic running pose`,
     cycling: `wearing cycling jersey (${prefs.jerseyColor}),
               cycling shorts (${prefs.shortsColor}),
-              cycling shoes, helmet`
+              cycling shoes, helmet`,
   }
 
-  const accessories = prefs.accessories?.length
-    ? `wearing ${prefs.accessories.join(', ')}`
-    : ''
+  const accessories = prefs.accessories?.length ? `wearing ${prefs.accessories.join(', ')}` : ''
 
   const kingStatus = prefs.isKing
     ? 'wearing a golden crown on head, champion pose, golden aura'
@@ -223,20 +229,22 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
 export async function generateAvatar(prefs: AvatarPreferences): Promise<string> {
   // Use Gemini 2.0 Flash (cheaper) or Pro (higher quality)
   const model = genAI.getGenerativeModel({
-    model: 'gemini-2.0-flash-exp'  // TODO: evaluate flash vs pro
+    model: 'gemini-2.0-flash-exp', // TODO: evaluate flash vs pro
   })
 
   const prompt = buildAvatarPrompt(prefs)
 
   const result = await model.generateContent({
-    contents: [{
-      role: 'user',
-      parts: [{ text: prompt }]
-    }],
+    contents: [
+      {
+        role: 'user',
+        parts: [{ text: prompt }],
+      },
+    ],
     generationConfig: {
       responseModalities: ['image'],
       // Additional config as needed
-    }
+    },
   })
 
   // Extract image data from response
@@ -279,7 +287,7 @@ export async function POST(req: Request) {
         imageUrl,
         isKing: preferences.isKing ?? false,
         prompt: buildAvatarPrompt(preferences),
-      }
+      },
     })
 
     return Response.json({ imageUrl })
@@ -402,16 +410,17 @@ model AvatarImage {
 
 ### Model Selection (TBD)
 
-| Model | Speed | Quality | Cost | Notes |
-|-------|-------|---------|------|-------|
-| **Gemini 2.0 Flash** | Fast | Good | Lower | Best for MVP |
-| **Gemini 2.0 Pro** | Slower | Higher | Higher | Better consistency |
+| Model                | Speed  | Quality | Cost   | Notes              |
+| -------------------- | ------ | ------- | ------ | ------------------ |
+| **Gemini 2.0 Flash** | Fast   | Good    | Lower  | Best for MVP       |
+| **Gemini 2.0 Pro**   | Slower | Higher  | Higher | Better consistency |
 
 **Recommendation:** Start with Flash, upgrade to Pro if quality is insufficient.
 
 ### Consistency Challenges
 
 AI generation may produce varying styles. Mitigations:
+
 1. **Detailed style prompt** - Include specific art style references
 2. **Reference image** - Include example avatar in prompt (if supported)
 3. **Regeneration option** - Let users regenerate if unhappy
@@ -427,6 +436,7 @@ AI generation may produce varying styles. Mitigations:
 ### When to Regenerate
 
 Avatar should be regenerated when:
+
 1. User changes any preference
 2. User becomes/loses King status
 3. User explicitly requests regeneration
@@ -437,18 +447,21 @@ Avatar should be regenerated when:
 ## MVP Scope
 
 ### Phase 1 (MVP)
+
 - Basic preferences (skin, hair, sport, jersey color)
 - Single sport per user
 - Generate on avatar creation
 - Store one image per user
 
 ### Phase 2
+
 - Multiple sports per user
 - King/non-king versions
 - Accessories
 - Regeneration limits
 
 ### Phase 3
+
 - Style variations
 - Seasonal outfits
 - Team jerseys

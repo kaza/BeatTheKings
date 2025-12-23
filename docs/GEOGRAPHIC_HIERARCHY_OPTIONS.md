@@ -10,6 +10,7 @@
 ## The Problem
 
 We need a location system that works globally for:
+
 1. **User home location** - Where the player is based
 2. **Venue location** - Where courts/fields are located
 3. **Rankings** - Venue-level, City-level, Country-level leaderboards
@@ -20,17 +21,18 @@ The challenge: **"District" means completely different things in different count
 
 ## How Different Regions Structure Locations
 
-| Region | Administrative Levels | "District" Equivalent |
-|--------|----------------------|----------------------|
-| **Vienna, Austria** | Country → State (Bundesland) → City → Bezirk | Bezirk (1-23) = small neighborhood |
-| **Austria overall** | Country → Bundesland → Bezirk → Gemeinde | Bezirk = large area containing multiple towns! |
-| **New York, USA** | Country → State → City → Borough → Neighborhood | Borough (Manhattan, Brooklyn) or neighborhood |
-| **Tokyo, Japan** | Country → Prefecture → City → Ward (ku) | 23 special wards = quite large |
-| **Pakistan** | Country → Province → Division → District → Tehsil | District = very large (like a county) |
-| **Vietnam** | Country → Province → District (Quận) → Ward | District varies wildly in size |
-| **Germany** | Country → Bundesland → Regierungsbezirk → Kreis → Gemeinde | Multiple levels, complex |
+| Region              | Administrative Levels                                      | "District" Equivalent                          |
+| ------------------- | ---------------------------------------------------------- | ---------------------------------------------- |
+| **Vienna, Austria** | Country → State (Bundesland) → City → Bezirk               | Bezirk (1-23) = small neighborhood             |
+| **Austria overall** | Country → Bundesland → Bezirk → Gemeinde                   | Bezirk = large area containing multiple towns! |
+| **New York, USA**   | Country → State → City → Borough → Neighborhood            | Borough (Manhattan, Brooklyn) or neighborhood  |
+| **Tokyo, Japan**    | Country → Prefecture → City → Ward (ku)                    | 23 special wards = quite large                 |
+| **Pakistan**        | Country → Province → Division → District → Tehsil          | District = very large (like a county)          |
+| **Vietnam**         | Country → Province → District (Quận) → Ward                | District varies wildly in size                 |
+| **Germany**         | Country → Bundesland → Regierungsbezirk → Kreis → Gemeinde | Multiple levels, complex                       |
 
 **Key insight:** Even within Austria, "Bezirk" means different things:
+
 - In Vienna: small neighborhood (e.g., "7. Bezirk" ~1.6 km²)
 - In rest of Austria: large administrative area containing multiple cities
 
@@ -43,6 +45,7 @@ Country → State → City → District → Venue
 ```
 
 **Problems:**
+
 1. Assumes District < City, but in many countries District > City
 2. State not needed for rankings (Venue → City → Country is enough)
 3. Rigid hierarchy doesn't fit all countries
@@ -55,6 +58,7 @@ Country → State → City → District → Venue
 ### Option A: Simplified 3-Tier with Sublocality String
 
 **Structure:**
+
 ```
 Country
   - id, name, code (ISO 3166-1)
@@ -70,18 +74,19 @@ Venue
 
 **Rankings:** Venue → City → Country (3 tiers)
 
-| Pros | Cons |
-|------|------|
-| Simple schema | No district-level rankings |
-| Works everywhere | Sublocality is unstructured |
+| Pros               | Cons                                   |
+| ------------------ | -------------------------------------- |
+| Simple schema      | No district-level rankings             |
+| Works everywhere   | Sublocality is unstructured            |
 | Easy to understand | Can't filter venues by district easily |
-| Fast queries | |
+| Fast queries       |                                        |
 
 ---
 
 ### Option B: Google Places Integration
 
 **Structure:**
+
 ```
 Country
   - id, name, code
@@ -100,6 +105,7 @@ Venue
 ```
 
 **How it works:**
+
 1. User types address in Google Places Autocomplete
 2. Google returns structured data + Place ID
 3. We extract country, city, sublocality automatically
@@ -107,19 +113,20 @@ Venue
 
 **Rankings:** Venue → City → Country (3 tiers)
 
-| Pros | Cons |
-|------|------|
-| Auto-populates locations | Google API dependency |
-| Handles all countries correctly | API costs (though Autocomplete is free) |
-| Consistent address formatting | Need internet for location entry |
-| Can query Google for updates | |
-| Users get familiar autocomplete UX | |
+| Pros                               | Cons                                    |
+| ---------------------------------- | --------------------------------------- |
+| Auto-populates locations           | Google API dependency                   |
+| Handles all countries correctly    | API costs (though Autocomplete is free) |
+| Consistent address formatting      | Need internet for location entry        |
+| Can query Google for updates       |                                         |
+| Users get familiar autocomplete UX |                                         |
 
 ---
 
 ### Option C: Flexible Parent-Child Hierarchy
 
 **Structure:**
+
 ```
 Location
   - id, name
@@ -136,18 +143,19 @@ Venue
 
 **Rankings:** Can do any level (Venue → Neighborhood → City → Region → Country)
 
-| Pros | Cons |
-|------|------|
-| Maximum flexibility | Complex queries (recursive) |
-| Supports any hierarchy | Over-engineered for MVP |
-| Can add district rankings later | Harder to understand |
-| | Performance concerns with deep hierarchies |
+| Pros                            | Cons                                       |
+| ------------------------------- | ------------------------------------------ |
+| Maximum flexibility             | Complex queries (recursive)                |
+| Supports any hierarchy          | Over-engineered for MVP                    |
+| Can add district rankings later | Harder to understand                       |
+|                                 | Performance concerns with deep hierarchies |
 
 ---
 
 ### Option D: Keep Current + Remove State
 
 **Structure:**
+
 ```
 Country
   - id, name, code
@@ -168,11 +176,11 @@ Venue
 
 **Rankings:** Venue → District (optional) → City → Country
 
-| Pros | Cons |
-|------|------|
+| Pros                             | Cons                                    |
+| -------------------------------- | --------------------------------------- |
 | Keeps district rankings possible | "District" still means different things |
-| Simpler than current (no State) | Manual data entry for districts |
-| | Doesn't scale globally well |
+| Simpler than current (no State)  | Manual data entry for districts         |
+|                                  | Doesn't scale globally well             |
 
 ---
 
@@ -181,6 +189,7 @@ Venue
 **For MVP: Option B (Google Places Integration)**
 
 Reasons:
+
 1. **User experience** - Google Autocomplete is familiar and fast
 2. **Global coverage** - Works correctly in every country
 3. **Less work** - No manual location data entry
@@ -218,9 +227,11 @@ Reasons:
 ## Team Input
 
 ### Almir (Team Lead) - 2025-12-18
+
 **Preference: Option A**
 
 Rationale:
+
 - Start with the simplest approach (KISS principle)
 - Can extend to Option B (Google Places) later if needed
 - Avoids external dependencies for MVP

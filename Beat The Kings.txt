@@ -1,0 +1,77 @@
+Hi Everyone:
+
+I’ve reviewed the current app concept and wanted to share my key observations and requirements for implementation. Please see the points below:
+	1.	Create Your Avatar
+The entry point should be exclusively Create Your Avatar. No additional terms are needed. Players create their avatar, and names are generally not displayed. Some avatar items should be visible but locked. These can be unlocked by:
+
+	•	Reaching a certain milestone, e.g., 25 played matches
+	•	Completing a specific number of challenges, e.g., 13
+	•	Inviting or bringing in another user to the app
+
+	2.	Rankings
+Each player should be clickable to open their Trump Card. Below the ranking, only the player’s own rank and the current King should be displayed. No age groups are necessary, as the app automatically assigns the correct age group.
+	3.	Venues
+All venues must display distance from the user and be sorted by proximity. The closest park should always appear at the top.
+	4.	Active Players on the Courts
+Only Avatar + Rank are displayed, no names. Clicking the avatar opens the Trump Card. Players should be encouraged to meet and interact in person.
+	5.	Challenges – General
+For challenges like 3-Throw, Around the World, 3-Point-Shots, or Free-Throws, include both Start and Stop count buttons. A View-Avatar button is not required.
+	6.	Challenges – 1 vs. 1
+The app should automatically detect who is on the court. Players verify themselves by briefly touching their smartphones together (Bluetooth/NFC), exchanging Trump Cards. No photo verification is needed. The app then automatically starts and evaluates the match via video + AI. Both players can select Agree or Dispute. If Agree, the result is automatically added to their statistics.
+	7.	Challenges – Location Selection
+When entering the Challenges section, players should first select the park. The nearest park is displayed at the top, followed by all available challenges in that park.
+	8.	Trump Card (Central Element)
+The Trump Card must display all key player information:
+
+	•	Avatar, Rank
+	•	XP, RP, Reward Points
+	•	Win Rate, Shooting Accuracy, Total Points
+	•	Match history & completed challenges
+	•	Detailed stats like 3-Point Accuracy, Free-Throw Accuracy, etc.
+It serves as the player’s identity, performance overview, and verification tool, and should be accessible in rankings, courts, verification, and the player’s profile.
+
+	9.	The Crown (King System)
+The crown for King of the Court, King of the City, or King of the State should be automatically awarded based on rankings, stats, and achievements. It transfers automatically from one Trump Card to the next when a new King emerges. Players cannot assign the crown manually.
+
+Please review these points and confirm how feasible it is to implement them. Let me know if anything needs clarification or if you foresee technical challenges.
+
+
+
+Hi Everyone:
+
+I’ve reviewed the current app concept and wanted to share my key observations and requirements for implementation. Please see the points below:
+	1.	Create Your Avatar
+The entry point should be exclusively Create Your Avatar. No additional terms are needed. Players create their avatar, and names are generally not displayed. Some avatar items should be visible but locked. These can be unlocked by:
+
+	•	Reaching a certain milestone, e.g., 25 played matches
+	•	Completing a specific number of challenges, e.g., 13
+	•	Inviting or bringing in another user to the app
+
+	2.	Rankings
+Each player should be clickable to open their Trump Card. Below the ranking, only the player’s own rank and the current King should be displayed. No age groups are necessary, as the app automatically assigns the correct age group.
+	3.	Venues
+All venues must display distance from the user and be sorted by proximity. The closest park should always appear at the top.
+	4.	Active Players on the Courts
+Only Avatar + Rank are displayed, no names. Clicking the avatar opens the Trump Card. Players should be encouraged to meet and interact in person.
+	5.	Challenges – General
+For challenges like 3-Throw, Around the World, 3-Point-Shots, or Free-Throws, include both Start and Stop count buttons. A View-Avatar button is not required.
+	6.	Challenges – 1 vs. 1
+The app should automatically detect who is on the court. Players verify themselves by briefly touching their smartphones together (Bluetooth/NFC), exchanging Trump Cards. No photo verification is needed. The app then automatically starts and evaluates the match via video + AI. Both players can select Agree or Dispute. If Agree, the result is automatically added to their statistics.
+	7.	Challenges – Location Selection
+When entering the Challenges section, players should first select the park. The nearest park is displayed at the top, followed by all available challenges in that park.
+	8.	Trump Card (Central Element)
+The Trump Card must display all key player information:
+
+	•	Avatar, Rank
+	•	XP, RP, Reward Points
+	•	Win Rate, Shooting Accuracy, Total Points
+	•	Match history & completed challenges
+	•	Detailed stats like 3-Point Accuracy, Free-Throw Accuracy, etc.
+It serves as the player’s identity, performance overview, and verification tool, and should be accessible in rankings, courts, verification, and the player’s profile.
+
+	9.	The Crown (King System)
+The crown for King of the Court, King of the City, or King of the State should be automatically awarded based on rankings, stats, and achievements. It transfers automatically from one Trump Card to the next when a new King emerges. Players cannot assign the crown manually.
+
+Please review these points and confirm how feasible it is to implement them. Let me know if anything needs clarification or if you foresee technical challenges.
+
+

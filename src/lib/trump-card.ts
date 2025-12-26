@@ -1,0 +1,280 @@
+/**
+ * Trump Card Library
+ * Functions for fetching and calculating Trump Card data
+ */
+
+import { eq, desc, and, sql } from 'drizzle-orm'
+import { users, avatars, playerStats, sports, venues } from '@/db/schema'
+import type { Database } from '@/db'
+
+// ===========================================
+// TYPES
+// ===========================================
+
+export interface TrumpCardData {
+  player: {
+    id: string
+    name: string | null
+    avatar: {
+      imageUrl: string | null
+      skinTone: string | null
+      hairStyle: string | null
+      hairColor: string | null
+    } | null
+  }
+  stats: {
+    rank: number
+    xp: number
+    xpToNextLevel: number
+    rp: number
+    totalPoints: number
+    winRate: number
+    matchesPlayed: number
+    matchesWon: number
+    matchesLost: number
+    challengesCompleted: number
+    totalChallenges: number
+  }
+  crowns: {
+    isKingOfCourt: boolean
+    isKingOfCity: boolean
+    isKingOfCountry: boolean
+    courtName: string | null
+    cityName: string | null
+    countryName: string | null
+  }
+  detailedStats: {
+    threePointAccuracy: number
+    freeThrowAccuracy: number
+    totalPointsScored: number
+  }
+}
+
+// ===========================================
+// CONSTANTS
+// ===========================================
+
+// XP required per level (simplified progression)
+const XP_PER_LEVEL = 100
+
+// Total challenges available (will be dynamic later)
+const TOTAL_CHALLENGES = 13
+
+// ===========================================
+// HELPER FUNCTIONS
+// ===========================================
+
+/**
+ * Calculate XP to next level
+ */
+export function calculateXpProgress(totalXp: number): { current: number; toNext: number } {
+  const currentLevel = Math.floor(totalXp / XP_PER_LEVEL)
+  const xpInCurrentLevel = totalXp % XP_PER_LEVEL
+  return {
+    current: xpInCurrentLevel,
+    toNext: XP_PER_LEVEL - xpInCurrentLevel,
+  }
+}
+
+/**
+ * Calculate win rate percentage
+ */
+export function calculateWinRate(won: number, played: number): number {
+  if (played === 0) return 0
+  return Math.round((won / played) * 100)
+}
+
+/**
+ * Calculate accuracy percentage
+ */
+export function calculateAccuracy(made: number, attempted: number): number {
+  if (attempted === 0) return 0
+  return Math.round((made / attempted) * 100)
+}
+
+// ===========================================
+// DATA FETCHING
+// ===========================================
+
+/**
+ * Get player's rank for a specific sport
+ */
+export async function getPlayerRank(
+  db: Database,
+  userId: string,
+  sportId: string
+): Promise<number> {
+  // Get all players ordered by XP for this sport
+  const rankings = await db
+    .select({
+      userId: playerStats.userId,
+      totalXp: playerStats.totalXp,
+    })
+    .from(playerStats)
+    .where(eq(playerStats.sportId, sportId))
+    .orderBy(desc(playerStats.totalXp))
+
+  const playerIndex = rankings.findIndex((r) => r.userId === userId)
+  return playerIndex === -1 ? 0 : playerIndex + 1
+}
+
+/**
+ * Check if player is King (highest XP) for a sport
+ */
+export async function isKingOfSport(
+  db: Database,
+  userId: string,
+  sportId: string
+): Promise<boolean> {
+  const rank = await getPlayerRank(db, userId, sportId)
+  return rank === 1
+}
+
+/**
+ * Get Trump Card data for a player
+ */
+export async function getTrumpCardData(
+  db: Database,
+  userId: string,
+  sportSlug: string = 'basketball'
+): Promise<TrumpCardData | null> {
+  // Get user data
+  const [user] = await db
+    .select({
+      id: users.id,
+      name: users.name,
+    })
+    .from(users)
+    .where(eq(users.id, userId))
+    .limit(1)
+
+  if (!user) return null
+
+  // Get avatar data
+  const [avatar] = await db
+    .select({
+      imageUrl: avatars.imageUrl,
+      skinTone: avatars.skinTone,
+      hairStyle: avatars.hairStyle,
+      hairColor: avatars.hairColor,
+    })
+    .from(avatars)
+    .where(eq(avatars.userId, userId))
+    .limit(1)
+
+  // Get sport
+  const [sport] = await db
+    .select({ id: sports.id })
+    .from(sports)
+    .where(eq(sports.slug, sportSlug))
+    .limit(1)
+
+  if (!sport) {
+    // Return empty stats if sport not found
+    return {
+      player: {
+        id: user.id,
+        name: user.name,
+        avatar: avatar || null,
+      },
+      stats: {
+        rank: 0,
+        xp: 0,
+        xpToNextLevel: XP_PER_LEVEL,
+        rp: 0,
+        totalPoints: 0,
+        winRate: 0,
+        matchesPlayed: 0,
+        matchesWon: 0,
+        matchesLost: 0,
+        challengesCompleted: 0,
+        totalChallenges: TOTAL_CHALLENGES,
+      },
+      crowns: {
+        isKingOfCourt: false,
+        isKingOfCity: false,
+        isKingOfCountry: false,
+        courtName: null,
+        cityName: null,
+        countryName: null,
+      },
+      detailedStats: {
+        threePointAccuracy: 0,
+        freeThrowAccuracy: 0,
+        totalPointsScored: 0,
+      },
+    }
+  }
+
+  // Get player stats for this sport
+  const [stats] = await db
+    .select()
+    .from(playerStats)
+    .where(and(eq(playerStats.userId, userId), eq(playerStats.sportId, sport.id)))
+    .limit(1)
+
+  // Calculate rank
+  const rank = await getPlayerRank(db, userId, sport.id)
+
+  // Check if King
+  const isKing = rank === 1
+
+  // Calculate XP progress
+  const xpProgress = calculateXpProgress(stats?.totalXp || 0)
+
+  // Calculate accuracies
+  const threePointAccuracy = calculateAccuracy(
+    stats?.threePointMade || 0,
+    stats?.threePointAttempted || 0
+  )
+  const freeThrowAccuracy = calculateAccuracy(
+    stats?.freeThrowMade || 0,
+    stats?.freeThrowAttempted || 0
+  )
+
+  return {
+    player: {
+      id: user.id,
+      name: user.name,
+      avatar: avatar || null,
+    },
+    stats: {
+      rank,
+      xp: stats?.totalXp || 0,
+      xpToNextLevel: xpProgress.toNext,
+      rp: stats?.availableRp || 0,
+      totalPoints: stats?.totalPointsScored || 0,
+      winRate: calculateWinRate(stats?.matchesWon || 0, stats?.matchesPlayed || 0),
+      matchesPlayed: stats?.matchesPlayed || 0,
+      matchesWon: stats?.matchesWon || 0,
+      matchesLost: stats?.matchesLost || 0,
+      challengesCompleted: stats?.challengesCompleted || 0,
+      totalChallenges: TOTAL_CHALLENGES,
+    },
+    crowns: {
+      isKingOfCourt: isKing, // Simplified for now
+      isKingOfCity: false,
+      isKingOfCountry: false,
+      courtName: isKing ? 'Current Venue' : null,
+      cityName: null,
+      countryName: null,
+    },
+    detailedStats: {
+      threePointAccuracy,
+      freeThrowAccuracy,
+      totalPointsScored: stats?.totalPointsScored || 0,
+    },
+  }
+}
+
+/**
+ * Check if a user exists
+ */
+export async function userExists(db: Database, userId: string): Promise<boolean> {
+  const [user] = await db
+    .select({ id: users.id })
+    .from(users)
+    .where(eq(users.id, userId))
+    .limit(1)
+  return !!user
+}

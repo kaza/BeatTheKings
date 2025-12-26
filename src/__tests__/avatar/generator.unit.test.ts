@@ -6,8 +6,6 @@ import { buildUserAvatarPrompt } from '@/lib/avatar/prompts'
 
 describe('Avatar Generator', () => {
   describe('generateAvatarImage (mocked)', () => {
-    const mockGenerateContent = vi.fn()
-
     beforeEach(() => {
       vi.clearAllMocks()
       vi.resetModules()
@@ -137,7 +135,12 @@ describe('Avatar Generator', () => {
     })
 
     it('should return null for response without image', () => {
-      const mockResponse = {
+      interface MockPart {
+        text?: string
+        inlineData?: { data: string }
+      }
+
+      const mockResponse: { candidates: { content: { parts: MockPart[] } }[] } = {
         candidates: [
           {
             content: {
@@ -161,7 +164,10 @@ describe('Avatar Generator', () => {
     })
 
     it('should handle empty candidates', () => {
-      const mockResponse = { candidates: [] }
+      interface MockCandidate {
+        content?: { parts?: unknown[] }
+      }
+      const mockResponse: { candidates: MockCandidate[] } = { candidates: [] }
 
       const parts = mockResponse.candidates?.[0]?.content?.parts || []
       expect(parts).toHaveLength(0)
